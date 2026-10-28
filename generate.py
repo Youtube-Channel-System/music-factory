@@ -20,23 +20,38 @@ import sys
 import time
 from pathlib import Path
 
-# FOCUS & CO sound: smooth deep house built around warm Rhodes chords.
-# One house style, several arrangements, so a one-hour mix stays coherent but never loops.
+# FOCUS & CO sound: smooth deep house built around a warm Rhodes, written like a
+# producer's brief so the model aims for a released record, not a demo.
 BASE = (
-    "smooth instrumental deep house, warm Rhodes electric piano chords, soft four-on-the-floor "
-    "kick, shuffled hi-hats, round deep sub bass, mellow lounge atmosphere, polished modern "
-    "production, wide stereo, focus music, no vocals"
+    "deep house, instrumental, 120 bpm groove, warm vintage Rhodes electric piano playing "
+    "lush jazzy seventh and ninth chords, live-played round electric bass, punchy but soft "
+    "909 kick, crisp swung hi-hats and shakers, subtle clap on two and four, analog tape "
+    "warmth, spacious plate reverb, sidechained pads, professional studio mix and mastering, "
+    "wide stereo image, clean low end, classy lounge atmosphere, steady hypnotic flow for "
+    "focus, polished like a major label club release, no vocals"
 )
 VARIATIONS = [
-    "late night rooftop bar feel, subtle vinyl warmth",
-    "airy pads underneath, gentle filter sweeps, steady and hypnotic",
-    "jazzy seventh chords, light shaker groove, relaxed but driving",
-    "deep plucked bass, soft clap on two and four, classy and minimal",
-    "warm analog pad swells, slow chord progression, calm confidence",
-    "muted guitar chops in the background, sunset terrace mood",
-    "soft piano melody doubling the Rhodes, elegant and focused",
-    "rolling bassline, crisp open hi-hats, smooth momentum for deep work",
+    "late night rooftop bar, smoky and elegant, gentle vinyl crackle",
+    "sunset terrace in Ibiza, airy pads, filtered guitar licks far in the background",
+    "Rhodes chords through a slow auto-filter, deep rolling bassline, hypnotic and minimal",
+    "soft piano melody doubling the Rhodes, emotional but restrained",
+    "muted trumpet phrases in the distance over the Rhodes, jazzy lounge house",
+    "chopped Rhodes stabs with long delay throws, driving and confident",
+    "warm analog string pad swells, slow chord progression, calm confidence",
+    "percussive congas and bongos, organic house groove, cinematic and classy",
 ]
+# Section tags shape the arrangement like a real club track: intro, groove, break, return.
+STRUCTURE = (
+    "[Instrumental]\n[Intro - Rhodes and hats]\n[Groove - full beat with bass]\n"
+    "[Main theme - Rhodes chords]\n[Breakdown - pads and Rhodes only]\n"
+    "[Build - filter rise]\n[Groove - full beat, variation]\n[Outro - beat fades]"
+)
+# Gentle mastering: clean sub, a little weight and air, glue compression, safe peaks.
+MASTER = (
+    "highpass=f=28,equalizer=f=70:t=q:w=1.2:g=1.5,equalizer=f=10000:t=h:w=1:g=1.5,"
+    "acompressor=threshold=-18dB:ratio=2:attack=25:release=250:makeup=1.5,"
+    "alimiter=limit=0.93:level=false,afade=t=in:d=1"
+)
 KEYS = ["A minor", "D minor", "F minor", "G minor", "C minor", "E minor", "B minor", "Eb major"]
 BPMS = [118, 120, 120, 122, 122, 124]
 
@@ -110,7 +125,8 @@ def main() -> int:
     p.add_argument("--seconds", type=float, default=210)
     p.add_argument("--seed", type=int, default=0)
     p.add_argument("--retries", type=int, default=2)
-    p.add_argument("--thinking", action="store_true", help="also run the 0.6B planner LM")
+    p.add_argument("--model", default="acestep-v15-xl-turbo", help="DiT checkpoint")
+    p.add_argument("--lm", default="acestep-5Hz-lm-1.7B", help="planner LM, or 'none'")
     args = p.parse_args()
 
     sys.path.insert(0, str(Path.cwd()))
@@ -123,17 +139,20 @@ def main() -> int:
     t0 = time.time()
     dit = AceStepHandler()
     msg, ok = dit.initialize_service(
-        project_root=str(Path.cwd()), config_path="acestep-v15-turbo", device="cpu"
+        project_root=str(Path.cwd()), config_path=args.model, device="cpu"
     )
     print("dit init:", ok, msg, f"{time.time() - t0:.0f}s", flush=True)
     llm = LLMHandler()
-    if args.thinking:
+    thinking = args.lm != "none"
+    if thinking:
+        t1 = time.time()
         llm.initialize(
             checkpoint_dir=str(Path.cwd() / "checkpoints"),
-            lm_model_path="acestep-5Hz-lm-0.6B",
+            lm_model_path=args.lm,
             backend="pt",
             device="cpu",
         )
+        print("lm init:", llm.llm_initialized, f"{time.time() - t1:.0f}s", flush=True)
     rng = random.Random(args.seed)
     manifest, rejected = [], 0
     for i in range(args.count):
@@ -141,13 +160,13 @@ def main() -> int:
             caption = f"{BASE}, {rng.choice(VARIATIONS)}"
             params = GenerationParams(
                 caption=caption,
-                lyrics="[Instrumental]",
+                lyrics=STRUCTURE,
                 instrumental=True,
                 bpm=rng.choice(BPMS),
                 keyscale=rng.choice(KEYS),
                 timesignature="4",
                 duration=args.seconds,
-                thinking=args.thinking,
+                thinking=thinking,
             )
             config = GenerationConfig(batch_size=1, audio_format="wav", use_random_seed=True)
             t = time.time()
@@ -163,10 +182,10 @@ def main() -> int:
                 rejected += 1
                 wav.unlink(missing_ok=True)
                 continue
-            name = f"fc-{args.seed:05d}-{i:02d}.mp3"
+            name = f"fc2-{args.seed:05d}-{i:02d}.mp3"
             subprocess.run(
                 [ffmpeg(), "-y", "-loglevel", "error", "-i", str(wav),
-                 "-af", "afade=t=in:d=1", "-b:a", "320k", str(out / name)],
+                 "-af", MASTER, "-b:a", "320k", str(out / name)],
                 check=True,
             )  # fmt: skip
             wav.unlink(missing_ok=True)

@@ -15,6 +15,16 @@ on:
       seconds:
         description: Length of each track in seconds
         default: "210"
+      model:
+        description: ACE-Step DiT (acestep-v15-xl-turbo = best quality, acestep-v15-turbo = faster)
+        default: acestep-v15-xl-turbo
+      lm:
+        description: Planner LM (acestep-5Hz-lm-1.7B, acestep-5Hz-lm-0.6B or none)
+        default: acestep-5Hz-lm-1.7B
+      publish:
+        description: Add to the library release (off = only to a lab branch to listen first)
+        type: boolean
+        default: true
   schedule:
     - cron: "17 6 * * 1"   # every Monday: 30 fresh tracks keep the library growing
 
@@ -74,21 +84,31 @@ jobs:
             --extra-index-url https://download.pytorch.org/whl/cpu
           pip install -q --no-deps -e .
           pip install -q --no-deps -e acestep/third_parts/nano-vllm || true
-          # Runners under 15 GB of RAM load the model in bfloat16 to fit.
-          if [ "$(free -g | awk '/Mem:/{print $2}')" -lt 15 ]; then
-            sed -i 's/torch.bfloat16 if resolved_device == "xpu" else torch.float32/torch.bfloat16/' \
-              acestep/core/generation/handler/init_service_orchestrator.py
-          fi
+          # bfloat16 on CPU: the XL model and the planner LM fit in the runner's RAM.
+          sed -i 's/torch.bfloat16 if resolved_device == "xpu" else torch.float32/torch.bfloat16/' \
+            acestep/core/generation/handler/init_service_orchestrator.py
       - name: Generate
         working-directory: ace
         run: |
           set -o pipefail
           seed=$(( $(date +%s) % 50000 + ${{ matrix.shard }} * 97 ))
           python ../generate.py --out ../out --count ${{ needs.plan.outputs.per_shard }} \
-            --seconds ${{ needs.plan.outputs.seconds }} --seed "$seed" 2>&1 | tee ../generate.log \
-            | grep -E "^(dit init|track|kept)" || true
+            --seconds ${{ needs.plan.outputs.seconds }} --seed "$seed" \
+            --model "${{ inputs.model || 'acestep-v15-xl-turbo' }}" --lm "${{ inputs.lm || 'acestep-5Hz-lm-1.7B' }}" \
+            > ../generate.log 2>&1 || true
+          grep -E "^(dit init|lm init|track|kept)" ../generate.log || tail -40 ../generate.log
+      - name: Push to a lab branch (listen before publishing)
+        if: always() && inputs.publish == false
+        run: |
+          mkdir -p out && cp generate.log out/ || true
+          cd out && rm -rf raw *.wav
+          git init -q -b lab && git add -A
+          git -c user.name="github-actions[bot]" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
+            commit -qm "lab ${{ github.run_id }} shard ${{ matrix.shard }}"
+          git push -qf "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}" \
+            "HEAD:lab-${{ github.run_id }}-${{ matrix.shard }}"
       - name: Add to the library release
-        if: always()
+        if: always() && inputs.publish != false
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
