@@ -8,6 +8,9 @@ The `generate` workflow runs [ACE-Step 1.5](https://github.com/ace-step/ACE-Step
 - **Cost:** none. This repository is public so its Actions minutes are free and unlimited.
 - **Rights:** the music is generated from text descriptions, so it is original and owned by the channel. No samples or third-party recordings are used.
 
+- **Lab mode:** run `generate` with `publish=false` to compare settings (model, LM) without touching the library; each shard pushes a `lab-<run>-<shard>` branch with its MP3 for you to listen to.
+- **Policies:** [Privacy](PRIVACY.md) and [Terms](TERMS.md) for the channel's OAuth consent screen.
+
 | File | Purpose |
 |---|---|
 | `generate.py` | Prompt bank, generation loop, quality check, MP3 export and track titles. |
