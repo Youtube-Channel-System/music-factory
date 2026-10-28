@@ -36,7 +36,7 @@ GENERATOR = "music-factory v3"
 # Sub-styles of the same sound. Weights favour the piano/Rhodes lounge core.
 STYLES: list[tuple[str, int, str]] = [
     ("lounge-piano", 4,
-     "deep house, lounge, smooth, warm, soft grand piano chords, rhodes electric piano, "
+     "deep house, lounge, smooth, warm, elegant, soft grand piano chords, rhodes electric piano, "
      "round warm bassline, crisp shuffled hi-hats, soft kick, subtle shaker, no vocals, "
      "hi-fi, polished mix, wide stereo, {bpm} bpm"),
     ("melodic-night", 3,
@@ -53,6 +53,10 @@ STYLES: list[tuple[str, int, str]] = [
     ("hypnotic-focus", 2,
      "deep house, hypnotic, focused, minimal piano stabs, warm analog bass, sidechain pumping "
      "pads, tight hi-hats, soft kick, no vocals, polished, wide stereo, {bpm} bpm"),
+    ("old-money-lounge", 3,
+     "lounge house, refined, elegant, old money, luxurious, soft grand piano voicings, "
+     "jazzy rhodes chords, round upright-style bassline, brushed hi-hats, soft kick, "
+     "subtle vinyl warmth, no vocals, hi-fi, polished mix, wide stereo, {bpm} bpm"),
     ("sax-sunset", 1,
      "chill house, smooth, golden hour, soft saxophone phrases, lush rhodes, warm bassline, "
      "crisp percussion, no vocals, hi-fi, polished mix, wide stereo, {bpm} bpm"),
