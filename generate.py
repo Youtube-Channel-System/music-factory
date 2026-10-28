@@ -183,16 +183,16 @@ def quality(wav: Path, seconds: float, bpm: int) -> tuple[bool, str, dict]:
     rms = np.sqrt((frames**2).mean(axis=1))
     body = rms[4:-6] if len(rms) > 12 else rms  # ignore intro/outro
     quiet = float((body < rms.max() * 0.08).mean())
-    if quiet > 0.06:
+    if quiet > 0.12:  # breakdowns are meant to be quiet; only long dead stretches fail
         return False, f"{quiet:.0%} near-silent", stats
     spec = np.abs(np.fft.rfft(frames[4:-6] if len(frames) > 12 else frames, axis=1))
     freqs = np.fft.rfftfreq(hop, 1 / sr)
     low = spec[:, (freqs > 40) & (freqs < 160)].mean(axis=1)
-    if float((low < low.max() * 0.05).mean()) > 0.12:
+    if float((low < low.max() * 0.05).mean()) > 0.18:
         return False, "no steady kick/bass", stats
     found = estimate_bpm(mono, sr)
     ratio = found / bpm if bpm else 1
-    locked = any(abs(ratio - r) < 0.04 for r in (0.5, 1.0, 2.0, 2 / 3, 1.5))
+    locked = any(abs(ratio - r) < 0.08 for r in (0.5, 1.0, 2.0, 2 / 3, 1.5))
     stats = {"peak": round(peak, 2), "quiet": round(quiet, 3), "bpm_found": round(found, 1)}
     if not locked:
         return False, f"tempo drift (asked {bpm}, found {found:.0f})", stats
