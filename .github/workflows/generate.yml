@@ -89,6 +89,9 @@ jobs:
             acestep/core/generation/handler/init_service_orchestrator.py
       - name: Generate
         working-directory: ace
+        env:
+          # ACE-Step gives up after 10 minutes by default; the XL model on CPU needs longer.
+          ACESTEP_GENERATION_TIMEOUT: "3000"
         run: |
           set -o pipefail
           seed=$(( $(date +%s) % 50000 + ${{ matrix.shard }} * 97 ))
