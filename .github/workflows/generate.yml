@@ -1,0 +1,99 @@
+name: generate
+
+# Generates original instrumental deep house with ACE-Step 1.5 on GitHub's CPU runners
+# and adds every track that passes the quality check to the `library` release.
+# The channel (channel-engine) downloads that release before each daily video.
+on:
+  workflow_dispatch:
+    inputs:
+      shards:
+        description: Parallel jobs (1-20)
+        default: "12"
+      per_shard:
+        description: Tracks per job
+        default: "10"
+      seconds:
+        description: Length of each track in seconds
+        default: "210"
+  schedule:
+    - cron: "17 6 * * 1"   # every Monday: 30 fresh tracks keep the library growing
+
+permissions:
+  contents: write
+
+jobs:
+  plan:
+    runs-on: ubuntu-latest
+    outputs:
+      shards: ${{ steps.p.outputs.shards }}
+      per_shard: ${{ steps.p.outputs.per_shard }}
+      seconds: ${{ steps.p.outputs.seconds }}
+    steps:
+      - id: p
+        env:
+          SHARDS: ${{ inputs.shards || '3' }}
+          PER: ${{ inputs.per_shard || '10' }}
+          SECS: ${{ inputs.seconds || '210' }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          n=$(( SHARDS < 1 ? 1 : (SHARDS > 20 ? 20 : SHARDS) ))
+          echo "shards=$(seq -s, 1 $n | sed 's/^/[/;s/$/]/')" >> "$GITHUB_OUTPUT"
+          echo "per_shard=$PER" >> "$GITHUB_OUTPUT"
+          echo "seconds=$SECS" >> "$GITHUB_OUTPUT"
+          gh release view library -R "$GITHUB_REPOSITORY" >/dev/null 2>&1 || gh release create library \
+            -R "$GITHUB_REPOSITORY" --title "FOCUS & CO music library" \
+            --notes "Original instrumental deep house generated with ACE-Step 1.5. Used by the FOCUS & CO channel."
+
+  generate:
+    needs: plan
+    runs-on: ubuntu-latest
+    timeout-minutes: 340
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: ${{ fromJSON(needs.plan.outputs.shards) }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Make room for the models
+        run: |
+          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /opt/hostedtoolcache/CodeQL
+          sudo fallocate -l 8G /swapfile2 && sudo chmod 600 /swapfile2 && sudo mkswap -q /swapfile2 && sudo swapon /swapfile2
+          nproc; free -g | head -2
+      - name: Install ACE-Step 1.5 (CPU, inference only)
+        run: |
+          git clone --depth 1 https://github.com/ace-step/ACE-Step-1.5 ace
+          cd ace
+          pip install -q torch==2.10.0 torchvision==0.25.0 torchaudio==2.10.0 \
+            --index-url https://download.pytorch.org/whl/cpu
+          grep -vE "^(#|--|torch==|torchvision|torchaudio==|flash-attn|triton|mlx|peft|lycoris|lightning|tensorboard|safetensors==)" \
+            requirements.txt | sed '/^\s*$/d' > req-cpu.txt
+          pip install -q -r req-cpu.txt safetensors pytorch_wavelets PyWavelets imageio-ffmpeg \
+            --extra-index-url https://download.pytorch.org/whl/cpu
+          pip install -q --no-deps -e .
+          pip install -q --no-deps -e acestep/third_parts/nano-vllm || true
+          # Runners under 15 GB of RAM load the model in bfloat16 to fit.
+          if [ "$(free -g | awk '/Mem:/{print $2}')" -lt 15 ]; then
+            sed -i 's/torch.bfloat16 if resolved_device == "xpu" else torch.float32/torch.bfloat16/' \
+              acestep/core/generation/handler/init_service_orchestrator.py
+          fi
+      - name: Generate
+        working-directory: ace
+        run: |
+          set -o pipefail
+          seed=$(( $(date +%s) % 50000 + ${{ matrix.shard }} * 97 ))
+          python ../generate.py --out ../out --count ${{ needs.plan.outputs.per_shard }} \
+            --seconds ${{ needs.plan.outputs.seconds }} --seed "$seed" 2>&1 | tee ../generate.log \
+            | grep -E "^(dit init|track|kept)" || true
+      - name: Add to the library release
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          shopt -s nullglob
+          files=(out/*.mp3 out/tracks-*.json)
+          [ ${#files[@]} -gt 0 ] && gh release upload library "${files[@]}" --clobber -R "$GITHUB_REPOSITORY"
+          grep -E "^(track|kept)" generate.log | tail -30 | sed ':a;N;$!ba;s/%/%25/g;s/\n/%0A/g' \
+            | xargs -0 -I{} echo "::notice title=shard ${{ matrix.shard }}::{}" || true
