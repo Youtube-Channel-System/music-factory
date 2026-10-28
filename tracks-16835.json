@@ -1,0 +1,70 @@
+[
+  {
+    "file": "fc3-16835-00.mp3",
+    "title": "Quiet Money",
+    "creator": "FOCUS & CO",
+    "license": "original",
+    "duration_s": 170.0,
+    "tags": [
+      "deep house",
+      "lounge",
+      "instrumental",
+      "122 bpm",
+      "F minor"
+    ],
+    "bpm": 122,
+    "key": "F minor",
+    "style": "lounge-piano",
+    "caption": "deep house, lounge, smooth, warm, elegant, soft grand piano chords, rhodes electric piano, round warm bassline, crisp shuffled hi-hats, soft kick, subtle shaker, no vocals, hi-fi, polished mix, wide stereo, 122 bpm",
+    "structure": "[intro] [inst] [inst] [breakdown] [build-up] [inst] [outro]",
+    "seed": 1302160227,
+    "model": "acestep-v15-xl-turbo",
+    "lm": "acestep-5Hz-lm-1.7B",
+    "generator": "music-factory v3",
+    "created_at": "2026-10-28T20:26:04Z",
+    "qa": {
+      "peak": 0.83,
+      "quiet": 0.003,
+      "bpm_found": 122.3,
+      "score": 91,
+      "lufs": -14.0,
+      "true_peak": -1.0,
+      "rolloff_hz": 17282,
+      "dynamics_db": 6.3
+    }
+  },
+  {
+    "file": "fc3-16835-01.mp3",
+    "title": "Early Margin",
+    "creator": "FOCUS & CO",
+    "license": "original",
+    "duration_s": 170.0,
+    "tags": [
+      "deep house",
+      "lounge",
+      "instrumental",
+      "123 bpm",
+      "C minor"
+    ],
+    "bpm": 123,
+    "key": "C minor",
+    "style": "lounge-piano",
+    "caption": "deep house, lounge, smooth, warm, elegant, soft grand piano chords, rhodes electric piano, round warm bassline, crisp shuffled hi-hats, soft kick, subtle shaker, no vocals, hi-fi, polished mix, wide stereo, 123 bpm",
+    "structure": "[intro] [inst] [breakdown] [inst] [outro]",
+    "seed": 1720107268,
+    "model": "acestep-v15-xl-turbo",
+    "lm": "acestep-5Hz-lm-1.7B",
+    "generator": "music-factory v3",
+    "created_at": "2026-10-28T21:46:00Z",
+    "qa": {
+      "peak": 0.74,
+      "quiet": 0.033,
+      "bpm_found": 122.3,
+      "score": 75,
+      "lufs": -13.8,
+      "true_peak": -0.4,
+      "rolloff_hz": 17132,
+      "dynamics_db": 6.5
+    }
+  }
+]
