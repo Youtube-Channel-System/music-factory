@@ -83,6 +83,22 @@ WORDS_A = [
     "Focused", "Patient", "Calm", "Slow", "Glass", "Marble", "Linen", "Cedar", "Amber",
     "Northern", "Hidden", "Second", "Final", "Open", "Higher", "Inner", "Lower", "Distant",
 ]  # fmt: skip
+FOCUS_PHRASES = [
+    "Deep Work Mode", "One More Hour", "Inbox Zero", "Do Not Disturb", "Head Down",
+    "Execution Phase", "Quiet Hustle", "Compound Interest", "Office Hours", "After Hours",
+    "Second Wind", "Final Draft", "Focus Window", "Single Task", "Clear Desk", "Night Shift",
+    "Early Bird", "No Days Off", "Momentum", "Flow Session", "Locked", "Close The Tabs",
+    "Build Mode", "Long Game", "Ship It", "Silent Grind", "Work In Silence", "Mind Over Noise",
+    "Phone Face Down", "Deadline Tonight", "Last Revision", "Five More Pages", "Earned Not Given",
+    "Discipline Daily", "Calm Ambition", "Cold Focus", "Steady Hands", "Brick By Brick",
+    "Main Character Work", "The Long Way", "Patience Pays", "Quarter End", "Board Meeting",
+    "Corner Office", "Study Hall", "Library Hours", "Exam Week", "Thesis Night", "Code Review",
+    "Deploy Friday", "Pull Request", "Black Coffee", "Second Cup", "Morning Pages", "Sunday Reset",
+    "Monday Plan", "Weekly Review", "Big Picture", "Fine Print", "Keep Going", "No Shortcuts",
+    "Built Different", "Back To Work", "Stay Hungry", "Quiet Money", "Private Office",
+    "Top Floor", "City Lights", "Midnight Oil", "Laser Focus", "Zero Distractions",
+    "Momentum Builder", "Clear Mind", "Pure Flow", "Time Blocked", "Focus Protocol",
+]  # fmt: skip
 WORDS_B = [
     "Hours", "Desk", "Ledger", "Office", "Session", "Routine", "Ritual", "Margin", "Signal",
     "Rhythm", "Motion", "Current", "Draft", "Blueprint", "Notes", "Capital", "Compound",
@@ -93,8 +109,14 @@ WORDS_B = [
 
 
 def title_pool(run_seed: int, taken: set[str]) -> list[str]:
-    pool = [f"{a} {b}" for a, b in itertools.product(WORDS_A, WORDS_B)]
-    random.Random(run_seed).shuffle(pool)
+    rng = random.Random(run_seed)
+    combos = [f"{a} {b}" for a, b in itertools.product(WORDS_A, WORDS_B)]
+    rng.shuffle(combos)
+    phrases = FOCUS_PHRASES[:]
+    rng.shuffle(phrases)
+    # Interleave: searchable focus phrases (what the niche names its tracks) and the
+    # channel's own quieter two-word titles.
+    pool = [t for pair in itertools.zip_longest(phrases, combos) for t in pair if t]
     return [t for t in pool if t.casefold() not in taken]
 
 
