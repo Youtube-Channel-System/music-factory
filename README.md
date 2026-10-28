@@ -15,3 +15,9 @@ The `generate` workflow runs [ACE-Step 1.5](https://github.com/ace-step/ACE-Step
 |---|---|
 | `generate.py` | Prompt bank, generation loop, quality check, MP3 export and track titles. |
 | `.github/workflows/generate.yml` | Installs ACE-Step for CPU and runs `generate.py` in parallel jobs. |
+
+## Sound target and catalog (v3)
+
+Smooth instrumental deep house / lounge for focus: warm basslines, soft piano and Rhodes, subtle percussion, jazzy lounge textures, 118–124 BPM, about 2:50 per track. `generate.py` holds six sub-styles written as ACE-Step tag lists (genre first, concrete instruments, production tags, BPM in tags and in `bpm`, key in `keyscale`, lowercase structure markers) and keeps the planner LM from rewriting them. Takes are rejected for silence, clipping, no steady low end or a lost tempo, then mastered to −14 LUFS / −1 dBTP for streaming.
+
+`catalog/tracks.csv` and `catalog/tracks.json` list every track (title, BPM, key, length, prompt, seed, QA stats) with empty release columns (`isrc`, `release_date`, `album`…) for when you distribute to Spotify. The workflow refreshes it after each publishing run.

@@ -1,72 +1,101 @@
-"""Generate original instrumental deep house with ACE-Step 1.5 (MIT, runs on CPU).
+"""Generate original instrumental lounge deep house with ACE-Step 1.5 (MIT, runs on CPU).
 
 Run inside an ACE-Step checkout (the workflow does this):
 
-    python ../generate.py --out ../out --count 10 --seconds 210 --seed 123
+    python ../generate.py --out ../out --count 8 --seconds 170 --seed 123 \
+        --shard 1 --run-seed 987 --catalog ../catalog/tracks.json
 
-Every track is new music made by the model from a text description, so it has
-no third-party owner and cannot trigger a Content ID claim from another catalog.
-Each track passes an automatic quality check before it is kept; a failed take is
-generated again with a new seed (up to --retries times).
+Sound target: smooth instrumental deep house / lounge for focus — warm basslines, soft
+piano and Rhodes, subtle percussion, jazzy lounge textures, 118-124 BPM, around 2:50 per
+track (the format of the big focus-house channels). Every track is new music made from a
+text description, so it has no third-party owner.
+
+Prompting follows the ACE-Step 1.5 guides: caption under 512 characters, 8-14 comma
+separated tags with the genre first, concrete instruments, production tags, BPM in both
+the tags and the `bpm` field, key in `keyscale`, lowercase section markers for structure,
+and the planner LM kept from rewriting the caption so every track stays on-style.
+
+Each take passes an automatic quality check (length, silence, clipping, steady low end,
+tempo lock) and is mastered for streaming (-14 LUFS, -1 dBTP) before it is kept.
 """
 
 from __future__ import annotations
 
 import argparse
+import itertools
 import json
 import random
 import subprocess
 import sys
 import time
+from datetime import UTC, datetime
 from pathlib import Path
 
-# FOCUS & CO sound: smooth deep house built around a warm Rhodes, written like a
-# producer's brief so the model aims for a released record, not a demo.
-BASE = (
-    "deep house, instrumental, 120 bpm groove, warm vintage Rhodes electric piano playing "
-    "lush jazzy seventh and ninth chords, live-played round electric bass, punchy but soft "
-    "909 kick, crisp swung hi-hats and shakers, subtle clap on two and four, analog tape "
-    "warmth, spacious plate reverb, sidechained pads, professional studio mix and mastering, "
-    "wide stereo image, clean low end, classy lounge atmosphere, steady hypnotic flow for "
-    "focus, polished like a major label club release, no vocals"
-)
-VARIATIONS = [
-    "late night rooftop bar, smoky and elegant, gentle vinyl crackle",
-    "sunset terrace in Ibiza, airy pads, filtered guitar licks far in the background",
-    "Rhodes chords through a slow auto-filter, deep rolling bassline, hypnotic and minimal",
-    "soft piano melody doubling the Rhodes, emotional but restrained",
-    "muted trumpet phrases in the distance over the Rhodes, jazzy lounge house",
-    "chopped Rhodes stabs with long delay throws, driving and confident",
-    "warm analog string pad swells, slow chord progression, calm confidence",
-    "percussive congas and bongos, organic house groove, cinematic and classy",
-]
-# Section tags shape the arrangement like a real club track: intro, groove, break, return.
-STRUCTURE = (
-    "[Instrumental]\n[Intro - Rhodes and hats]\n[Groove - full beat with bass]\n"
-    "[Main theme - Rhodes chords]\n[Breakdown - pads and Rhodes only]\n"
-    "[Build - filter rise]\n[Groove - full beat, variation]\n[Outro - beat fades]"
-)
-# Gentle mastering: clean sub, a little weight and air, glue compression, safe peaks.
-MASTER = (
-    "highpass=f=28,equalizer=f=70:t=q:w=1.2:g=1.5,equalizer=f=10000:t=h:w=1:g=1.5,"
-    "acompressor=threshold=-18dB:ratio=2:attack=25:release=250:makeup=1.5,"
-    "alimiter=limit=0.93:level=false,afade=t=in:d=1"
-)
-KEYS = ["A minor", "D minor", "F minor", "G minor", "C minor", "E minor", "B minor", "Eb major"]
-BPMS = [118, 120, 120, 122, 122, 124]
+GENERATOR = "music-factory v3"
 
-# Track names in the niche's voice: short, motivational, all original.
-TITLE_A = [
-    "Black Coffee", "Quiet Money", "Late Ledger", "Silent Hours", "Cold Brew", "Night Shift",
-    "First Light", "Clean Desk", "Long Game", "Deep Work", "Sharp Suit", "Private Office",
-    "Corner Office", "Old Money", "Market Close", "Early Hours", "Glass Tower", "Low Light",
-    "Wall Street", "Penthouse", "Velvet Hours", "Closed Doors", "Gold Standard", "Midnight Desk",
+# Sub-styles of the same sound. Weights favour the piano/Rhodes lounge core.
+STYLES: list[tuple[str, int, str]] = [
+    ("lounge-piano", 4,
+     "deep house, lounge, smooth, warm, soft grand piano chords, rhodes electric piano, "
+     "round warm bassline, crisp shuffled hi-hats, soft kick, subtle shaker, no vocals, "
+     "hi-fi, polished mix, wide stereo, {bpm} bpm"),
+    ("melodic-night", 3,
+     "melodic deep house, elegant, late night, felt piano melody, deep warm sub bass, "
+     "filtered analog pads, soft claps, subtle percussion, no vocals, hi-fi, analog warmth, "
+     "wide stereo, {bpm} bpm"),
+    ("jazzy-lounge", 3,
+     "lounge house, jazzy, sophisticated, rhodes seventh chords, muted trumpet phrases, "
+     "warm walking bassline, brushed hi-hats, soft kick, no vocals, hi-fi, tape saturation, "
+     "{bpm} bpm"),
+    ("organic-guitar", 2,
+     "deep house, soulful, organic, nylon guitar licks, warm rhodes chords, rolling bassline, "
+     "congas, soft claps, no vocals, hi-fi, polished mix, wide stereo, {bpm} bpm"),
+    ("hypnotic-focus", 2,
+     "deep house, hypnotic, focused, minimal piano stabs, warm analog bass, sidechain pumping "
+     "pads, tight hi-hats, soft kick, no vocals, polished, wide stereo, {bpm} bpm"),
+    ("sax-sunset", 1,
+     "chill house, smooth, golden hour, soft saxophone phrases, lush rhodes, warm bassline, "
+     "crisp percussion, no vocals, hi-fi, polished mix, wide stereo, {bpm} bpm"),
 ]  # fmt: skip
-TITLE_B = [
-    "& Big Plans", "Mode", "Discipline", "No Excuses", "in Silence", "Momentum", "Ritual",
-    "Session", "Hours", "Standards", "Focus", "Routine", "Ambition", "Composure", "Protocol",
-    "Theory", "Mindset", "Rules",
+STRUCTURES = [
+    "[intro]\n\n[inst]\n\n[breakdown]\n\n[inst]\n\n[outro]",
+    "[intro]\n\n[inst]\n\n[inst]\n\n[breakdown]\n\n[build-up]\n\n[inst]\n\n[outro]",
+    "[intro]\n\n[inst]\n\n[breakdown]\n\n[inst]\n\n[inst]\n\n[outro]",
+]
+KEYS = ["A minor", "D minor", "E minor", "G minor", "C minor", "F minor", "B minor", "C major"]
+BPMS = [118, 120, 120, 121, 122, 122, 123, 124]
+
+# Mastering for streaming: clean sub, light glue, -14 LUFS integrated, -1 dBTP ceiling.
+def master_chain(seconds: float) -> str:
+    return (
+        "highpass=f=30,equalizer=f=65:t=q:w=1.0:g=1.0,equalizer=f=11000:t=h:w=1:g=1.0,"
+        "acompressor=threshold=-20dB:ratio=1.8:attack=30:release=250:makeup=1,"
+        "loudnorm=I=-14:TP=-1.0:LRA=9,"
+        f"afade=t=in:d=0.6,afade=t=out:st={max(0.0, seconds - 4):.2f}:d=4"
+    )
+
+
+# Track names in the niche's voice: short, focused, original. Combined and de-duplicated
+# against the catalog so no title ever repeats (streaming services flag duplicates).
+WORDS_A = [
+    "Quiet", "Deep", "Clean", "Late", "Early", "Silent", "Steady", "Golden", "Velvet", "Cold",
+    "Black", "Private", "Corner", "Long", "Sharp", "Still", "Soft", "Midnight", "Morning",
+    "Focused", "Patient", "Calm", "Slow", "Glass", "Marble", "Linen", "Cedar", "Amber",
+    "Northern", "Hidden", "Second", "Final", "Open", "Higher", "Inner", "Lower", "Distant",
 ]  # fmt: skip
+WORDS_B = [
+    "Hours", "Desk", "Ledger", "Office", "Session", "Routine", "Ritual", "Margin", "Signal",
+    "Rhythm", "Motion", "Current", "Draft", "Blueprint", "Notes", "Capital", "Compound",
+    "Window", "Avenue", "Terrace", "Lobby", "Harbor", "Skyline", "Hallway", "Archive",
+    "Studio", "Pattern", "Balance", "Horizon", "Tempo", "Method", "Practice", "Season",
+    "Weekday", "Shift", "Room", "Mile", "Lane",
+]  # fmt: skip
+
+
+def title_pool(run_seed: int, taken: set[str]) -> list[str]:
+    pool = [f"{a} {b}" for a, b in itertools.product(WORDS_A, WORDS_B)]
+    random.Random(run_seed).shuffle(pool)
+    return [t for t in pool if t.casefold() not in taken]
 
 
 def ffmpeg() -> str:
@@ -86,45 +115,74 @@ def to_wav(audio: dict, dest: Path) -> Path:
     return dest
 
 
-def quality(wav: Path, seconds: float) -> tuple[bool, str]:
-    """Reject takes with long silences, clipping, wrong length or no steady beat."""
+def estimate_bpm(mono, sr: int) -> float:
+    """Tempo from the autocorrelation of a simple onset envelope (90-150 BPM window)."""
+    import numpy as np
+
+    hop = 512
+    n = len(mono) // hop
+    frames = mono[: n * hop].reshape(n, hop)
+    energy = np.sqrt((frames**2).mean(axis=1))
+    onset = np.maximum(0, np.diff(energy))
+    onset = onset - onset.mean()
+    ac = np.correlate(onset, onset, mode="full")[len(onset) - 1 :]
+    fps = sr / hop
+    lags = np.arange(len(ac))
+    bpm = np.where(lags > 0, 60 * fps / np.maximum(lags, 1), 0)
+    window = (bpm >= 90) & (bpm <= 150)
+    if not window.any():
+        return 0.0
+    best = lags[window][np.argmax(ac[window])]
+    return float(60 * fps / best)
+
+
+def quality(wav: Path, seconds: float, bpm: int) -> tuple[bool, str, dict]:
+    """Reject takes with long silences, clipping, wrong length, no groove or a lost tempo."""
     import numpy as np
     import soundfile as sf
 
     data, sr = sf.read(str(wav), always_2d=True)
     mono = data.mean(axis=1)
+    stats: dict = {}
     if len(mono) < sr * seconds * 0.9:
-        return False, f"too short ({len(mono) / sr:.0f}s)"
+        return False, f"too short ({len(mono) / sr:.0f}s)", stats
     peak = float(np.abs(mono).max())
     if peak < 1e-3:
-        return False, "silent"
+        return False, "silent", stats
     clipped = float((np.abs(data) > 0.999).mean())
     if clipped > 0.002:
-        return False, f"clipping {clipped:.2%}"
+        return False, f"clipping {clipped:.2%}", stats
     hop = sr // 2
     frames = mono[: len(mono) // hop * hop].reshape(-1, hop)
     rms = np.sqrt((frames**2).mean(axis=1))
-    loud = rms.max()
-    body = rms[2:-2] if len(rms) > 6 else rms  # ignore intro/outro fades
-    quiet = float((body < loud * 0.08).mean())
-    if quiet > 0.08:
-        return False, f"{quiet:.0%} near-silent"
-    # A house groove keeps the low end busy: compare bass energy across the body.
-    spec = np.abs(np.fft.rfft(frames[2:-2] if len(frames) > 6 else frames, axis=1))
+    body = rms[4:-6] if len(rms) > 12 else rms  # ignore intro/outro
+    quiet = float((body < rms.max() * 0.08).mean())
+    if quiet > 0.06:
+        return False, f"{quiet:.0%} near-silent", stats
+    spec = np.abs(np.fft.rfft(frames[4:-6] if len(frames) > 12 else frames, axis=1))
     freqs = np.fft.rfftfreq(hop, 1 / sr)
     low = spec[:, (freqs > 40) & (freqs < 160)].mean(axis=1)
-    if float((low < low.max() * 0.05).mean()) > 0.15:
-        return False, "no steady kick/bass"
-    return True, f"ok peak={peak:.2f} quiet={quiet:.0%}"
+    if float((low < low.max() * 0.05).mean()) > 0.12:
+        return False, "no steady kick/bass", stats
+    found = estimate_bpm(mono, sr)
+    ratio = found / bpm if bpm else 1
+    locked = any(abs(ratio - r) < 0.04 for r in (0.5, 1.0, 2.0, 2 / 3, 1.5))
+    stats = {"peak": round(peak, 2), "quiet": round(quiet, 3), "bpm_found": round(found, 1)}
+    if not locked:
+        return False, f"tempo drift (asked {bpm}, found {found:.0f})", stats
+    return True, f"ok peak={peak:.2f} quiet={quiet:.0%} bpm~{found:.0f}", stats
 
 
 def main() -> int:
     p = argparse.ArgumentParser()
     p.add_argument("--out", default="out")
     p.add_argument("--count", type=int, default=2)
-    p.add_argument("--seconds", type=float, default=210)
+    p.add_argument("--seconds", type=float, default=170)
     p.add_argument("--seed", type=int, default=0)
     p.add_argument("--retries", type=int, default=2)
+    p.add_argument("--shard", type=int, default=1)
+    p.add_argument("--run-seed", type=int, default=0, help="same for every shard of a run")
+    p.add_argument("--catalog", default="", help="catalog/tracks.json, to keep titles unique")
     p.add_argument("--model", default="acestep-v15-xl-turbo", help="DiT checkpoint")
     p.add_argument("--lm", default="acestep-5Hz-lm-1.7B", help="planner LM, or 'none'")
     args = p.parse_args()
@@ -136,6 +194,14 @@ def main() -> int:
 
     out = Path(args.out)
     out.mkdir(parents=True, exist_ok=True)
+    taken: set[str] = set()
+    if args.catalog and Path(args.catalog).exists():
+        taken = {t["title"].casefold() for t in json.loads(Path(args.catalog).read_text())}
+    titles = title_pool(args.run_seed, taken)
+    # Each shard takes its own slice of the shuffled pool: unique across the whole run.
+    start = (args.shard - 1) * args.count
+    titles = titles[start : start + args.count]
+
     t0 = time.time()
     dit = AceStepHandler()
     msg, ok = dit.initialize_service(
@@ -154,21 +220,33 @@ def main() -> int:
         )
         print("lm init:", llm.llm_initialized, f"{time.time() - t1:.0f}s", flush=True)
     rng = random.Random(args.seed)
+    names = [s[0] for s in STYLES]
+    weights = [s[1] for s in STYLES]
     manifest, rejected = [], 0
     for i in range(args.count):
         for attempt in range(args.retries + 1):
-            caption = f"{BASE}, {rng.choice(VARIATIONS)}"
+            style = rng.choices(names, weights=weights, k=1)[0]
+            bpm = rng.choice(BPMS)
+            key = rng.choice(KEYS)
+            caption = dict((s[0], s[2]) for s in STYLES)[style].format(bpm=bpm)
+            structure = rng.choice(STRUCTURES)
+            seed = rng.randrange(1, 2**31 - 1)
             params = GenerationParams(
                 caption=caption,
-                lyrics=STRUCTURE,
+                lyrics=structure,
                 instrumental=True,
-                bpm=rng.choice(BPMS),
-                keyscale=rng.choice(KEYS),
+                bpm=bpm,
+                keyscale=key,
                 timesignature="4",
                 duration=args.seconds,
                 thinking=thinking,
+                use_cot_caption=False,  # keep our caption: every track stays on-style
+                use_cot_metas=False,  # BPM and key are ours too
+                use_cot_language=False,
             )
-            config = GenerationConfig(batch_size=1, audio_format="wav", use_random_seed=True)
+            config = GenerationConfig(
+                batch_size=1, audio_format="wav", use_random_seed=False, seeds=[seed]
+            )
             t = time.time()
             result = generate_music(dit, llm, params, config, save_dir=str(out / "raw"))
             took = time.time() - t
@@ -176,30 +254,41 @@ def main() -> int:
                 print(f"track {i} take {attempt}: failed {result.error}", flush=True)
                 continue
             wav = to_wav(result.audios[0], out / f"take-{i}-{attempt}.wav")
-            good, why = quality(wav, args.seconds)
-            print(f"track {i} take {attempt}: {why} ({took:.0f}s)", flush=True)
+            good, why, stats = quality(wav, args.seconds, bpm)
+            print(f"track {i} take {attempt} [{style}]: {why} ({took:.0f}s)", flush=True)
             if not good:
                 rejected += 1
                 wav.unlink(missing_ok=True)
                 continue
-            name = f"fc2-{args.seed:05d}-{i:02d}.mp3"
+            name = f"fc3-{args.seed:05d}-{i:02d}.mp3"
             subprocess.run(
                 [ffmpeg(), "-y", "-loglevel", "error", "-i", str(wav),
-                 "-af", MASTER, "-b:a", "320k", str(out / name)],
+                 "-af", master_chain(args.seconds), "-ar", "44100", "-b:a", "320k",
+                 str(out / name)],
                 check=True,
             )  # fmt: skip
             wav.unlink(missing_ok=True)
             manifest.append(
                 {
                     "file": name,
-                    "title": f"{rng.choice(TITLE_A)} {rng.choice(TITLE_B)}",
+                    "title": titles[i] if i < len(titles) else f"Session {args.seed}-{i}",
                     "creator": "FOCUS & CO",
                     "license": "original",
                     "duration_s": args.seconds,
-                    "tags": ["deep house", "rhodes", "instrumental", f"{params.bpm} bpm",
-                             params.keyscale],
+                    "tags": ["deep house", "lounge", "instrumental", f"{bpm} bpm", key],
+                    "bpm": bpm,
+                    "key": key,
+                    "style": style,
+                    "caption": caption,
+                    "structure": structure.replace("\n\n", " "),
+                    "seed": seed,
+                    "model": args.model,
+                    "lm": args.lm,
+                    "generator": GENERATOR,
+                    "created_at": datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ"),
+                    "qa": stats,
                 }
-            )  # fmt: skip
+            )
             break
     (out / f"tracks-{args.seed:05d}.json").write_text(json.dumps(manifest, indent=2))
     print(f"kept {len(manifest)}/{args.count}, rejected takes {rejected}", flush=True)

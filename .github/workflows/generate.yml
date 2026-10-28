@@ -10,11 +10,11 @@ on:
         description: Parallel jobs (1-20)
         default: "12"
       per_shard:
-        description: Tracks per job
-        default: "10"
+        description: Tracks per job (about 40 min each on CPU; 8 fit in a job)
+        default: "8"
       seconds:
-        description: Length of each track in seconds
-        default: "210"
+        description: Length of each track in seconds (focus-house tracks run about 2:50)
+        default: "170"
       model:
         description: ACE-Step DiT (acestep-v15-xl-turbo = best quality, acestep-v15-turbo = faster)
         default: acestep-v15-xl-turbo
@@ -25,8 +25,9 @@ on:
         description: Add to the library release (off = only to a lab branch to listen first)
         type: boolean
         default: true
-  schedule:
-    - cron: "17 6 * * 1"   # every Monday: 30 fresh tracks keep the library growing
+  # Weekly top-up, paused until the v3 sound is approved by ear:
+  # schedule:
+  #   - cron: "17 6 * * 1"
 
 permissions:
   contents: write
@@ -42,8 +43,8 @@ jobs:
       - id: p
         env:
           SHARDS: ${{ inputs.shards || '3' }}
-          PER: ${{ inputs.per_shard || '10' }}
-          SECS: ${{ inputs.seconds || '210' }}
+          PER: ${{ inputs.per_shard || '8' }}
+          SECS: ${{ inputs.seconds || '170' }}
           GH_TOKEN: ${{ github.token }}
         run: |
           n=$(( SHARDS < 1 ? 1 : (SHARDS > 20 ? 20 : SHARDS) ))
@@ -97,9 +98,12 @@ jobs:
           seed=$(( $(date +%s) % 50000 + ${{ matrix.shard }} * 97 ))
           python ../generate.py --out ../out --count ${{ needs.plan.outputs.per_shard }} \
             --seconds ${{ needs.plan.outputs.seconds }} --seed "$seed" \
+            --shard ${{ matrix.shard }} --run-seed ${{ github.run_id }} --catalog ../catalog/tracks.json \
             --model "${{ inputs.model || 'acestep-v15-xl-turbo' }}" --lm "${{ inputs.lm || 'acestep-5Hz-lm-1.7B' }}" \
             > ../generate.log 2>&1 || true
           grep -E "^(dit init|lm init|track|kept)" ../generate.log || tail -40 ../generate.log
+          # Say it loudly when a shard produced nothing (the job itself keeps going).
+          ls ../out/*.mp3 >/dev/null 2>&1 || echo "::error title=shard ${{ matrix.shard }}::no track kept — $(grep -E '^track' ../generate.log | tail -1)"
       - name: Push to a lab branch (listen before publishing)
         if: always() && inputs.publish == false
         run: |
@@ -120,3 +124,23 @@ jobs:
           [ ${#files[@]} -gt 0 ] && gh release upload library "${files[@]}" --clobber -R "$GITHUB_REPOSITORY"
           grep -E "^(track|kept)" generate.log | tail -30 | sed ':a;N;$!ba;s/%/%25/g;s/\n/%0A/g' \
             | xargs -0 -I{} echo "::notice title=shard ${{ matrix.shard }}::{}" || true
+
+  catalog:
+    # After every publishing run: rebuild catalog/tracks.json + tracks.csv from the release.
+    needs: generate
+    if: always() && inputs.publish != false
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Update the catalog
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p manifests
+          gh release download library -R "$GITHUB_REPOSITORY" -p 'tracks-*.json' -D manifests --clobber
+          python3 catalog.py manifests
+          git add catalog
+          git diff --cached --quiet && exit 0
+          git -c user.name="github-actions[bot]" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
+            commit -qm "catalog: $(python3 -c 'import json;print(len(json.load(open("catalog/tracks.json"))))') tracks"
+          git push -q origin HEAD:main
