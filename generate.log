@@ -1,0 +1,305 @@
+[32m2026-10-28 01:30:42.032[0m | [34m[1mDEBUG   [0m | [36macestep.core.generation.handler.init_service_memory_basic[0m:[36m_apply_malloc_mmap_threshold[0m:[36m50[0m - [34m[1m[memory] Set M_MMAP_THRESHOLD=131072 for immediate OS reclaim of large frees[0m
+[32m2026-10-28 01:30:42.122[0m | [33m[1mWARNING [0m | [36macestep.training.lora_injection[0m:[36m<module>[0m:[36m74[0m - [33m[1mPEFT library not installed. LoRA training will not be available.[0m
+[32m2026-10-28 01:30:42.124[0m | [33m[1mWARNING [0m | [36macestep.training.lora_utils[0m:[36m<module>[0m:[36m17[0m - [33m[1mPEFT library not installed. LoRA training will not be available.[0m
+[32m2026-10-28 01:30:42.127[0m | [33m[1mWARNING [0m | [36macestep.training.lokr_utils[0m:[36m<module>[0m:[36m24[0m - [33m[1mLyCORIS library not installed. LoKr training/inference unavailable. Install with: pip install lycoris-lora[0m
+[32m2026-10-28 01:30:42.131[0m | [33m[1mWARNING [0m | [36macestep.training.data_module[0m:[36m<module>[0m:[36m25[0m - [33m[1mLightning not installed. Training module will not be available.[0m
+[32m2026-10-28 01:30:42.145[0m | [33m[1mWARNING [0m | [36macestep.training.trainer[0m:[36m<module>[0m:[36m29[0m - [33m[1mLightning Fabric not installed. Training will use basic training loop.[0m
+[32m2026-10-28 01:30:42.146[0m | [33m[1mWARNING [0m | [36macestep.training.trainer[0m:[36m<module>[0m:[36m40[0m - [33m[1mbitsandbytes not installed. Using standard AdamW.[0m
+[32m2026-10-28 01:30:44.468[0m | [33m[1mWARNING [0m | [36macestep.gpu_config[0m:[36m_log_gpu_diagnostic_info[0m:[36m645[0m - [33m[1m================================================================================[0m
+[32m2026-10-28 01:30:44.468[0m | [33m[1mWARNING [0m | [36macestep.gpu_config[0m:[36m_log_gpu_diagnostic_info[0m:[36m646[0m - [33m[1m⚠️ GPU NOT DETECTED - DIAGNOSTIC INFORMATION[0m
+[32m2026-10-28 01:30:44.468[0m | [33m[1mWARNING [0m | [36macestep.gpu_config[0m:[36m_log_gpu_diagnostic_info[0m:[36m647[0m - [33m[1m================================================================================[0m
+[32m2026-10-28 01:30:44.468[0m | [33m[1mWARNING [0m | [36macestep.gpu_config[0m:[36m_log_gpu_diagnostic_info[0m:[36m725[0m - [33m[1m⚠️ PyTorch build type: CPU-only[0m
+[32m2026-10-28 01:30:44.468[0m | [33m[1mWARNING [0m | [36macestep.gpu_config[0m:[36m_log_gpu_diagnostic_info[0m:[36m726[0m - [33m[1m[0m
+[32m2026-10-28 01:30:44.469[0m | [33m[1mWARNING [0m | [36macestep.gpu_config[0m:[36m_log_gpu_diagnostic_info[0m:[36m727[0m - [33m[1mYou have installed a CPU-only version of PyTorch![0m
+[32m2026-10-28 01:30:44.469[0m | [33m[1mWARNING [0m | [36macestep.gpu_config[0m:[36m_log_gpu_diagnostic_info[0m:[36m728[0m - [33m[1m[0m
+[32m2026-10-28 01:30:44.469[0m | [33m[1mWARNING [0m | [36macestep.gpu_config[0m:[36m_log_gpu_diagnostic_info[0m:[36m729[0m - [33m[1mFor NVIDIA GPUs:[0m
+[32m2026-10-28 01:30:44.469[0m | [33m[1mWARNING [0m | [36macestep.gpu_config[0m:[36m_log_gpu_diagnostic_info[0m:[36m730[0m - [33m[1m  pip install torch --index-url https://download.pytorch.org/whl/cu121[0m
+[32m2026-10-28 01:30:44.469[0m | [33m[1mWARNING [0m | [36macestep.gpu_config[0m:[36m_log_gpu_diagnostic_info[0m:[36m731[0m - [33m[1m[0m
+[32m2026-10-28 01:30:44.469[0m | [33m[1mWARNING [0m | [36macestep.gpu_config[0m:[36m_log_gpu_diagnostic_info[0m:[36m732[0m - [33m[1mFor AMD GPUs with ROCm:[0m
+[32m2026-10-28 01:30:44.469[0m | [33m[1mWARNING [0m | [36macestep.gpu_config[0m:[36m_log_gpu_diagnostic_info[0m:[36m733[0m - [33m[1m  Windows: See requirements-rocm.txt for detailed instructions[0m
+[32m2026-10-28 01:30:44.469[0m | [33m[1mWARNING [0m | [36macestep.gpu_config[0m:[36m_log_gpu_diagnostic_info[0m:[36m734[0m - [33m[1m  Linux: pip install torch --index-url https://download.pytorch.org/whl/rocm6.0[0m
+[32m2026-10-28 01:30:44.469[0m | [33m[1mWARNING [0m | [36macestep.gpu_config[0m:[36m_log_gpu_diagnostic_info[0m:[36m737[0m - [33m[1m[0m
+[32m2026-10-28 01:30:44.469[0m | [33m[1mWARNING [0m | [36macestep.gpu_config[0m:[36m_log_gpu_diagnostic_info[0m:[36m738[0m - [33m[1mFor more information, see README.md section 'AMD / ROCm GPUs'[0m
+[32m2026-10-28 01:30:44.469[0m | [33m[1mWARNING [0m | [36macestep.gpu_config[0m:[36m_log_gpu_diagnostic_info[0m:[36m740[0m - [33m[1m================================================================================[0m
+[32m2026-10-28 01:30:44.469[0m | [1mINFO    [0m | [36macestep.core.generation.handler.init_service_downloads[0m:[36m_ensure_models_present[0m:[36m32[0m - [1m[initialize_service] Main model not found, starting auto-download...[0m
+[32m2026-10-28 01:30:44.476[0m | [1mINFO    [0m | [36macestep.model_downloader[0m:[36m_smart_download[0m:[36m249[0m - [1m[Model Download] Auto-detected: HuggingFace Hub[0m
+[32m2026-10-28 01:30:44.476[0m | [1mINFO    [0m | [36macestep.model_downloader[0m:[36m_smart_download[0m:[36m252[0m - [1m[Model Download] Using HuggingFace Hub...[0m
+[32m2026-10-28 01:30:44.476[0m | [1mINFO    [0m | [36macestep.model_downloader[0m:[36m_download_from_huggingface_internal[0m:[36m180[0m - [1m[Model Download] Downloading from HuggingFace: ACE-Step/Ace-Step1.5 -> /home/runner/work/music-factory/music-factory/ace/checkpoints[0m
+
+============================================================
+Main model not found. Starting automatic download...
+============================================================
+
+Downloading main model from ACE-Step/Ace-Step1.5...
+Destination: /home/runner/work/music-factory/music-factory/ace/checkpoints
+This may take a while depending on your internet connection...
+Fetching 28 files:   0%|          | 0/28 [00:00<?, ?it/s]Fetching 28 files:  29%|██▊       | 8/28 [00:00<00:00, 51.66it/s]Fetching 28 files:  61%|██████    | 17/28 [00:00<00:00, 61.40it/s]Fetching 28 files:  93%|█████████▎| 26/28 [00:16<00:01,  1.57it/s]Fetching 28 files:  96%|█████████▋| 27/28 [00:22<00:00,  1.22it/s]Fetching 28 files: 100%|██████████| 28/28 [00:27<00:00,  1.03it/s]Fetching 28 files: 100%|██████████| 28/28 [00:27<00:00,  1.03it/s]
+[32m2026-10-28 01:31:11.871[0m | [34m[1mDEBUG   [0m | [36macestep.model_downloader[0m:[36m_sync_model_code_files[0m:[36m131[0m - [34m[1m[Model Sync] Synced configuration_acestep_v15.py -> /home/runner/work/music-factory/music-factory/ace/checkpoints/acestep-v15-turbo/configuration_acestep_v15.py[0m
+[32m2026-10-28 01:31:12.063[0m | [34m[1mDEBUG   [0m | [36macestep.model_downloader[0m:[36m_sync_model_code_files[0m:[36m131[0m - [34m[1m[Model Sync] Synced modeling_acestep_v15_turbo.py -> /home/runner/work/music-factory/music-factory/ace/checkpoints/acestep-v15-turbo/modeling_acestep_v15_turbo.py[0m
+[32m2026-10-28 01:31:12.063[0m | [1mINFO    [0m | [36macestep.model_downloader[0m:[36mdownload_main_model[0m:[36m489[0m - [1m[Model Download] Synced code files for acestep-v15-turbo: ['configuration_acestep_v15.py', 'modeling_acestep_v15_turbo.py'][0m
+[32m2026-10-28 01:31:12.063[0m | [1mINFO    [0m | [36macestep.core.generation.handler.init_service_downloads[0m:[36m_ensure_models_present[0m:[36m36[0m - [1m[initialize_service] Successfully downloaded from HuggingFace: ACE-Step/Ace-Step1.5[0m
+[32m2026-10-28 01:31:12.063[0m | [1mINFO    [0m | [36macestep.core.generation.handler.init_service_downloads[0m:[36m_ensure_models_present[0m:[36m44[0m - [1m[initialize_service] DiT model 'acestep-v15-xl-turbo' not found, starting auto-download...[0m
+[32m2026-10-28 01:31:12.067[0m | [1mINFO    [0m | [36macestep.model_downloader[0m:[36m_smart_download[0m:[36m249[0m - [1m[Model Download] Auto-detected: HuggingFace Hub[0m
+[32m2026-10-28 01:31:12.067[0m | [1mINFO    [0m | [36macestep.model_downloader[0m:[36m_smart_download[0m:[36m252[0m - [1m[Model Download] Using HuggingFace Hub...[0m
+[32m2026-10-28 01:31:12.067[0m | [1mINFO    [0m | [36macestep.model_downloader[0m:[36m_download_from_huggingface_internal[0m:[36m180[0m - [1m[Model Download] Downloading from HuggingFace: ACE-Step/acestep-v15-xl-turbo -> /home/runner/work/music-factory/music-factory/ace/checkpoints/acestep-v15-xl-turbo[0m
+
+============================================================
+DiT model 'acestep-v15-xl-turbo' not found. Starting automatic download...
+============================================================
+
+Downloading acestep-v15-xl-turbo from ACE-Step/acestep-v15-xl-turbo...
+Destination: /home/runner/work/music-factory/music-factory/ace/checkpoints/acestep-v15-xl-turbo
+Fetching 11 files:   0%|          | 0/11 [00:00<?, ?it/s]Fetching 11 files:  64%|██████▎   | 7/11 [00:12<00:07,  1.78s/it]Fetching 11 files:  73%|███████▎  | 8/11 [00:40<00:15,  5.07s/it]Fetching 11 files:  82%|████████▏ | 9/11 [00:43<00:09,  4.87s/it]Fetching 11 files:  91%|█████████ | 10/11 [00:44<00:04,  4.46s/it]Fetching 11 files: 100%|██████████| 11/11 [00:51<00:00,  4.65s/it]Fetching 11 files: 100%|██████████| 11/11 [00:51<00:00,  4.65s/it]
+[32m2026-10-28 01:32:03.363[0m | [34m[1mDEBUG   [0m | [36macestep.model_downloader[0m:[36m_sync_model_code_files[0m:[36m131[0m - [34m[1m[Model Sync] Synced modeling_acestep_v15_xl_turbo.py -> /home/runner/work/music-factory/music-factory/ace/checkpoints/acestep-v15-xl-turbo/modeling_acestep_v15_xl_turbo.py[0m
+[32m2026-10-28 01:32:03.617[0m | [34m[1mDEBUG   [0m | [36macestep.model_downloader[0m:[36m_sync_model_code_files[0m:[36m131[0m - [34m[1m[Model Sync] Synced configuration_acestep_v15.py -> /home/runner/work/music-factory/music-factory/ace/checkpoints/acestep-v15-xl-turbo/configuration_acestep_v15.py[0m
+[32m2026-10-28 01:32:03.617[0m | [1mINFO    [0m | [36macestep.model_downloader[0m:[36mdownload_submodel[0m:[36m541[0m - [1m[Model Download] Synced code files for acestep-v15-xl-turbo: ['modeling_acestep_v15_xl_turbo.py', 'configuration_acestep_v15.py'][0m
+[32m2026-10-28 01:32:03.617[0m | [1mINFO    [0m | [36macestep.core.generation.handler.init_service_downloads[0m:[36m_ensure_models_present[0m:[36m48[0m - [1m[initialize_service] Successfully downloaded from HuggingFace: ACE-Step/acestep-v15-xl-turbo[0m
+[32m2026-10-28 01:32:03.618[0m | [1mINFO    [0m | [36macestep.core.generation.handler.init_service_loader[0m:[36m_load_main_model_from_checkpoint[0m:[36m174[0m - [1m[initialize_service] Attempting to load model with attention implementation: sdpa[0m
+Loading checkpoint shards:   0%|          | 0/4 [00:00<?, ?it/s]Loading checkpoint shards:  25%|██▌       | 1/4 [00:06<00:18,  6.03s/it]Loading checkpoint shards:  50%|█████     | 2/4 [00:17<00:18,  9.42s/it]Loading checkpoint shards:  75%|███████▌  | 3/4 [01:29<00:38, 38.02s/it]Loading checkpoint shards: 100%|██████████| 4/4 [01:41<00:00, 27.72s/it]Loading checkpoint shards: 100%|██████████| 4/4 [01:41<00:00, 25.45s/it]
+There are modules in AutoencoderOobleck that should be kept in float32: []. Casting directly with `to()` can lead to inconsistent results; set `torch_dtype` in `from_pretrained()` instead to keep these modules in float32.
+[32m2026-10-28 01:33:59.383[0m | [1mINFO    [0m | [36macestep.core.generation.handler.mlx_dit_init[0m:[36m_init_mlx_dit[0m:[36m22[0m - [1m[MLX-DiT] MLX not available on this platform; skipping.[0m
+[32m2026-10-28 01:33:59.383[0m | [1mINFO    [0m | [36macestep.core.generation.handler.mlx_vae_init[0m:[36m_init_mlx_vae[0m:[36m37[0m - [1m[MLX-VAE] MLX not available on this platform; skipping.[0m
+dit init: True [OK] Model initialized successfully on cpu
+Main model: /home/runner/work/music-factory/music-factory/ace/checkpoints/acestep-v15-xl-turbo
+VAE: /home/runner/work/music-factory/music-factory/ace/checkpoints/vae
+Text encoder: /home/runner/work/music-factory/music-factory/ace/checkpoints/Qwen3-Embedding-0.6B
+Dtype: torch.bfloat16
+Attention: sdpa
+Compiled: False
+Quantization: Disabled
+Offload to CPU: False
+Offload DiT to CPU: False
+MLX DiT: Unavailable (PyTorch fallback)
+MLX VAE: Unavailable (PyTorch fallback) 195s
+[32m2026-10-28 01:33:59.384[0m | [1mINFO    [0m | [36macestep.inference[0m:[36mgenerate_music[0m:[36m662[0m - [1m[generate_music] LLM usage decision: thinking=False, use_cot_caption=True, use_cot_language=True, use_cot_metas=True, need_lm_for_cot=True, llm_initialized=False, use_lm=False[0m
+[32m2026-10-28 01:33:59.384[0m | [1mINFO    [0m | [36macestep.core.generation.handler.generate_music[0m:[36mgenerate_music[0m:[36m313[0m - [1m[generate_music] Turbo model detected: overriding guidance_scale 7.0 -> 1.0 (turbo does not use CFG).[0m
+[32m2026-10-28 01:33:59.385[0m | [1mINFO    [0m | [36macestep.core.generation.handler.generate_music[0m:[36mgenerate_music[0m:[36m329[0m - [1m[generate_music] Starting generation...[0m
+[32m2026-10-28 01:33:59.385[0m | [1mINFO    [0m | [36macestep.core.generation.handler.generate_music[0m:[36mgenerate_music[0m:[36m332[0m - [1m[generate_music] Preparing inputs...[0m
+[32m2026-10-28 01:33:59.432[0m | [1mINFO    [0m | [36macestep.core.generation.handler.progress[0m:[36m_start_diffusion_progress_estimator[0m:[36m179[0m - [1m[progress] No timing history — using fallback estimate (2.5s/step for batch_size=1).  This will self-calibrate after the first generation.[0m
+[32m2026-10-28 01:33:59.607[0m | [1mINFO    [0m | [36macestep.core.generation.handler.conditioning_text[0m:[36m_prepare_text_conditioning_inputs[0m:[36m119[0m - [1m
+======================================================================[0m
+[32m2026-10-28 01:33:59.607[0m | [1mINFO    [0m | [36macestep.core.generation.handler.conditioning_text[0m:[36m_prepare_text_conditioning_inputs[0m:[36m120[0m - [1m🔍 [DEBUG] DiT TEXT ENCODER INPUT (Inference)[0m
+[32m2026-10-28 01:33:59.607[0m | [1mINFO    [0m | [36macestep.core.generation.handler.conditioning_text[0m:[36m_prepare_text_conditioning_inputs[0m:[36m121[0m - [1m======================================================================[0m
+[32m2026-10-28 01:33:59.607[0m | [1mINFO    [0m | [36macestep.core.generation.handler.conditioning_text[0m:[36m_prepare_text_conditioning_inputs[0m:[36m122[0m - [1mtext_prompt:
+# Instruction
+Fill the audio semantic mask based on the given conditions:
+
+# Caption
+deep house, instrumental, 120 bpm groove, warm vintage Rhodes electric piano playing lush jazzy seventh and ninth chords, live-played round electric bass, punchy but soft 909 kick, crisp swung hi-hats and shakers, subtle clap on two and four, analog tape warmth, spacious plate reverb, sidechained pads, professional studio mix and mastering, wide stereo image, clean low end, classy lounge atmosphere, steady hypnotic flow for focus, polished like a major label club release, no vocals, percussive congas and bongos, organic house groove, cinematic and classy
+
+# Metas
+- bpm: 118
+- timesignature: 4
+- keyscale: A minor
+- duration: 210 seconds
+<|endoftext|>
+[0m
+[32m2026-10-28 01:33:59.608[0m | [1mINFO    [0m | [36macestep.core.generation.handler.conditioning_text[0m:[36m_prepare_text_conditioning_inputs[0m:[36m123[0m - [1m======================================================================[0m
+[32m2026-10-28 01:33:59.608[0m | [1mINFO    [0m | [36macestep.core.generation.handler.conditioning_text[0m:[36m_prepare_text_conditioning_inputs[0m:[36m124[0m - [1mlyrics_text:
+# Languages
+unknown
+
+# Lyric
+[Instrumental]
+[Intro - Rhodes and hats]
+[Groove - full beat with bass]
+[Main theme - Rhodes chords]
+[Breakdown - pads and Rhodes only]
+[Build - filter rise]
+[Groove - full beat, variation]
+[Outro - beat fades]<|endoftext|>[0m
+[32m2026-10-28 01:33:59.608[0m | [1mINFO    [0m | [36macestep.core.generation.handler.conditioning_text[0m:[36m_prepare_text_conditioning_inputs[0m:[36m125[0m - [1m======================================================================
+[0m
+[32m2026-10-28 01:33:59.646[0m | [1mINFO    [0m | [36macestep.core.generation.handler.conditioning_embed[0m:[36mpreprocess_batch[0m:[36m110[0m - [1m[preprocess_batch] Inferring prompt embeddings...[0m
+[32m2026-10-28 01:34:07.884[0m | [1mINFO    [0m | [36macestep.core.generation.handler.conditioning_embed[0m:[36mpreprocess_batch[0m:[36m113[0m - [1m[preprocess_batch] Inferring lyric embeddings...[0m
+[32m2026-10-28 01:34:07.885[0m | [1mINFO    [0m | [36macestep.core.generation.handler.service_generate_execute[0m:[36m_execute_service_generate_diffusion[0m:[36m173[0m - [1m[service_generate] Generating audio... (DiT backend: PyTorch (cpu))[0m
+[32m2026-10-28 01:36:20.524[0m | [1mINFO    [0m | [36macestep.core.generation.handler.service_generate_execute[0m:[36m_execute_service_generate_diffusion[0m:[36m276[0m - [1m[service_generate] DiT diffusion via PyTorch (cpu)...[0m
+[32m2026-10-28 01:38:33.044[0m | [1mINFO    [0m | [36macestep.models.common.dcw_correction[0m:[36m__init__[0m:[36m98[0m - [1m[DCW] Active — mode=double, scaler=0.0500, high_scaler=0.0200, wavelet='haar'[0m
+[32m2026-10-28 01:43:59.440[0m | [31m[1mERROR   [0m | [36macestep.core.generation.handler.generate_music_execute[0m:[36m_run_generate_music_service_with_progress[0m:[36m148[0m - [31m[1m[generate_music] service_generate exceeded 600s timeout (batch=1, steps=8, duration=210.0s).  The CUDA operation may still be running in the background.[0m
+[32m2026-10-28 01:43:59.442[0m | [31m[1mERROR   [0m | [36macestep.core.generation.handler.generate_music[0m:[36mgenerate_music[0m:[36m522[0m - [31m[1m[generate_music] Generation failed[0m
+[33m[1mTraceback (most recent call last):[0m
+
+  File "[32m/home/runner/work/music-factory/music-factory/ace/../[0m[32m[1mgenerate.py[0m", line [33m210[0m, in [35m<module>[0m
+    [35m[1mraise[0m [1mSystemExit[0m[1m([0m[1mmain[0m[1m([0m[1m)[0m[1m)[0m
+    [36m                 └ [0m[36m[1m<function main at 0x72b91733afc0>[0m
+
+  File "[32m/home/runner/work/music-factory/music-factory/ace/../[0m[32m[1mgenerate.py[0m", line [33m173[0m, in [35mmain[0m
+    [1mresult[0m [35m[1m=[0m [1mgenerate_music[0m[1m([0m[1mdit[0m[1m,[0m [1mllm[0m[1m,[0m [1mparams[0m[1m,[0m [1mconfig[0m[1m,[0m [1msave_dir[0m[35m[1m=[0m[1mstr[0m[1m([0m[1mout[0m [35m[1m/[0m [36m"raw"[0m[1m)[0m[1m)[0m
+    [36m         │              │    │    │       │                    └ [0m[36m[1mPosixPath('../out')[0m
+    [36m         │              │    │    │       └ [0m[36m[1mGenerationConfig(batch_size=1, allow_lm_batch=False, use_random_seed=True, seeds=None, lm_batch_chunk_size=8, constrained_dec...[0m
+    [36m         │              │    │    └ [0m[36m[1mGenerationParams(task_type='text2music', instruction='Fill the audio semantic mask based on the given conditions:', reference...[0m
+    [36m         │              │    └ [0m[36m[1m<acestep.llm_inference.LLMHandler object at 0x72b8c0146150>[0m
+    [36m         │              └ [0m[36m[1m<acestep.handler.AceStepHandler object at 0x72b91733fef0>[0m
+    [36m         └ [0m[36m[1m<function generate_music at 0x72b8ee961f80>[0m
+
+  File "[32m/home/runner/work/music-factory/music-factory/ace/acestep/[0m[32m[1minference.py[0m", line [33m916[0m, in [35mgenerate_music[0m
+    [1mresult[0m [35m[1m=[0m [1mdit_handler[0m[35m[1m.[0m[1mgenerate_music[0m[1m([0m[35m[1m**[0m[1mfiltered_generate_kwargs[0m[1m)[0m
+    [36m         │           │                └ [0m[36m[1m{'captions': 'deep house, instrumental, 120 bpm groove, warm vintage Rhodes electric piano playing lush jazzy seventh and nin...[0m
+    [36m         │           └ [0m[36m[1m<function GenerateMusicMixin.generate_music at 0x72b8ef147ba0>[0m
+    [36m         └ [0m[36m[1m<acestep.handler.AceStepHandler object at 0x72b91733fef0>[0m
+
+> File "[32m/home/runner/work/music-factory/music-factory/ace/acestep/core/generation/handler/[0m[32m[1mgenerate_music.py[0m", line [33m424[0m, in [35mgenerate_music[0m
+    [1mservice_run[0m [35m[1m=[0m [1mself[0m[35m[1m.[0m[1m_run_generate_music_service_with_progress[0m[1m([0m
+    [36m              │    └ [0m[36m[1m<function GenerateMusicExecuteMixin._run_generate_music_service_with_progress at 0x72b8ef004180>[0m
+    [36m              └ [0m[36m[1m<acestep.handler.AceStepHandler object at 0x72b91733fef0>[0m
+
+  File "[32m/home/runner/work/music-factory/music-factory/ace/acestep/core/generation/handler/[0m[32m[1mgenerate_music_execute.py[0m", line [33m154[0m, in [35m_run_generate_music_service_with_progress[0m
+    [35m[1mraise[0m [1mTimeoutError[0m[1m([0m
+
+[31m[1mTimeoutError[0m:[1m Music generation timed out after 600 seconds.  This usually means the GPU ran out of VRAM or the diffusion loop stalled.  Try reducing batch size, duration, or inference steps.[0m
+track 0 take 0: failed Music generation timed out after 600 seconds.  This usually means the GPU ran out of VRAM or the diffusion loop stalled.  Try reducing batch size, duration, or inference steps.
+[32m2026-10-28 01:43:59.446[0m | [1mINFO    [0m | [36macestep.inference[0m:[36mgenerate_music[0m:[36m662[0m - [1m[generate_music] LLM usage decision: thinking=False, use_cot_caption=True, use_cot_language=True, use_cot_metas=True, need_lm_for_cot=True, llm_initialized=False, use_lm=False[0m
+[32m2026-10-28 01:43:59.447[0m | [1mINFO    [0m | [36macestep.core.generation.handler.generate_music[0m:[36mgenerate_music[0m:[36m313[0m - [1m[generate_music] Turbo model detected: overriding guidance_scale 7.0 -> 1.0 (turbo does not use CFG).[0m
+[32m2026-10-28 01:43:59.447[0m | [1mINFO    [0m | [36macestep.core.generation.handler.generate_music[0m:[36mgenerate_music[0m:[36m329[0m - [1m[generate_music] Starting generation...[0m
+[32m2026-10-28 01:43:59.447[0m | [1mINFO    [0m | [36macestep.core.generation.handler.generate_music[0m:[36mgenerate_music[0m:[36m332[0m - [1m[generate_music] Preparing inputs...[0m
+[32m2026-10-28 01:43:59.504[0m | [1mINFO    [0m | [36macestep.core.generation.handler.progress[0m:[36m_start_diffusion_progress_estimator[0m:[36m179[0m - [1m[progress] No timing history — using fallback estimate (2.5s/step for batch_size=1).  This will self-calibrate after the first generation.[0m
+[32m2026-10-28 01:43:59.664[0m | [1mINFO    [0m | [36macestep.core.generation.handler.conditioning_text[0m:[36m_prepare_text_conditioning_inputs[0m:[36m119[0m - [1m
+======================================================================[0m
+[32m2026-10-28 01:43:59.664[0m | [1mINFO    [0m | [36macestep.core.generation.handler.conditioning_text[0m:[36m_prepare_text_conditioning_inputs[0m:[36m120[0m - [1m🔍 [DEBUG] DiT TEXT ENCODER INPUT (Inference)[0m
+[32m2026-10-28 01:43:59.664[0m | [1mINFO    [0m | [36macestep.core.generation.handler.conditioning_text[0m:[36m_prepare_text_conditioning_inputs[0m:[36m121[0m - [1m======================================================================[0m
+[32m2026-10-28 01:43:59.664[0m | [1mINFO    [0m | [36macestep.core.generation.handler.conditioning_text[0m:[36m_prepare_text_conditioning_inputs[0m:[36m122[0m - [1mtext_prompt:
+# Instruction
+Fill the audio semantic mask based on the given conditions:
+
+# Caption
+deep house, instrumental, 120 bpm groove, warm vintage Rhodes electric piano playing lush jazzy seventh and ninth chords, live-played round electric bass, punchy but soft 909 kick, crisp swung hi-hats and shakers, subtle clap on two and four, analog tape warmth, spacious plate reverb, sidechained pads, professional studio mix and mastering, wide stereo image, clean low end, classy lounge atmosphere, steady hypnotic flow for focus, polished like a major label club release, no vocals, sunset terrace in Ibiza, airy pads, filtered guitar licks far in the background
+
+# Metas
+- bpm: 122
+- timesignature: 4
+- keyscale: A minor
+- duration: 210 seconds
+<|endoftext|>
+[0m
+[32m2026-10-28 01:43:59.665[0m | [1mINFO    [0m | [36macestep.core.generation.handler.conditioning_text[0m:[36m_prepare_text_conditioning_inputs[0m:[36m123[0m - [1m======================================================================[0m
+[32m2026-10-28 01:43:59.665[0m | [1mINFO    [0m | [36macestep.core.generation.handler.conditioning_text[0m:[36m_prepare_text_conditioning_inputs[0m:[36m124[0m - [1mlyrics_text:
+# Languages
+unknown
+
+# Lyric
+[Instrumental]
+[Intro - Rhodes and hats]
+[Groove - full beat with bass]
+[Main theme - Rhodes chords]
+[Breakdown - pads and Rhodes only]
+[Build - filter rise]
+[Groove - full beat, variation]
+[Outro - beat fades]<|endoftext|>[0m
+[32m2026-10-28 01:43:59.665[0m | [1mINFO    [0m | [36macestep.core.generation.handler.conditioning_text[0m:[36m_prepare_text_conditioning_inputs[0m:[36m125[0m - [1m======================================================================
+[0m
+[32m2026-10-28 01:43:59.695[0m | [1mINFO    [0m | [36macestep.core.generation.handler.conditioning_embed[0m:[36mpreprocess_batch[0m:[36m110[0m - [1m[preprocess_batch] Inferring prompt embeddings...[0m
+[32m2026-10-28 01:44:14.544[0m | [1mINFO    [0m | [36macestep.core.generation.handler.conditioning_embed[0m:[36mpreprocess_batch[0m:[36m113[0m - [1m[preprocess_batch] Inferring lyric embeddings...[0m
+[32m2026-10-28 01:44:14.545[0m | [1mINFO    [0m | [36macestep.core.generation.handler.service_generate_execute[0m:[36m_execute_service_generate_diffusion[0m:[36m173[0m - [1m[service_generate] Generating audio... (DiT backend: PyTorch (cpu))[0m
+[32m2026-10-28 01:48:05.127[0m | [1mINFO    [0m | [36macestep.core.generation.handler.service_generate_execute[0m:[36m_execute_service_generate_diffusion[0m:[36m276[0m - [1m[service_generate] DiT diffusion via PyTorch (cpu)...[0m
+[32m2026-10-28 01:51:44.635[0m | [1mINFO    [0m | [36macestep.models.common.dcw_correction[0m:[36m__init__[0m:[36m98[0m - [1m[DCW] Active — mode=double, scaler=0.0500, high_scaler=0.0200, wavelet='haar'[0m
+[32m2026-10-28 01:53:59.507[0m | [31m[1mERROR   [0m | [36macestep.core.generation.handler.generate_music_execute[0m:[36m_run_generate_music_service_with_progress[0m:[36m148[0m - [31m[1m[generate_music] service_generate exceeded 600s timeout (batch=1, steps=8, duration=210.0s).  The CUDA operation may still be running in the background.[0m
+[32m2026-10-28 01:53:59.508[0m | [31m[1mERROR   [0m | [36macestep.core.generation.handler.generate_music[0m:[36mgenerate_music[0m:[36m522[0m - [31m[1m[generate_music] Generation failed[0m
+[33m[1mTraceback (most recent call last):[0m
+
+  File "[32m/home/runner/work/music-factory/music-factory/ace/../[0m[32m[1mgenerate.py[0m", line [33m210[0m, in [35m<module>[0m
+    [35m[1mraise[0m [1mSystemExit[0m[1m([0m[1mmain[0m[1m([0m[1m)[0m[1m)[0m
+    [36m                 └ [0m[36m[1m<function main at 0x72b91733afc0>[0m
+
+  File "[32m/home/runner/work/music-factory/music-factory/ace/../[0m[32m[1mgenerate.py[0m", line [33m173[0m, in [35mmain[0m
+    [1mresult[0m [35m[1m=[0m [1mgenerate_music[0m[1m([0m[1mdit[0m[1m,[0m [1mllm[0m[1m,[0m [1mparams[0m[1m,[0m [1mconfig[0m[1m,[0m [1msave_dir[0m[35m[1m=[0m[1mstr[0m[1m([0m[1mout[0m [35m[1m/[0m [36m"raw"[0m[1m)[0m[1m)[0m
+    [36m         │              │    │    │       │                    └ [0m[36m[1mPosixPath('../out')[0m
+    [36m         │              │    │    │       └ [0m[36m[1mGenerationConfig(batch_size=1, allow_lm_batch=False, use_random_seed=True, seeds=None, lm_batch_chunk_size=8, constrained_dec...[0m
+    [36m         │              │    │    └ [0m[36m[1mGenerationParams(task_type='text2music', instruction='Fill the audio semantic mask based on the given conditions:', reference...[0m
+    [36m         │              │    └ [0m[36m[1m<acestep.llm_inference.LLMHandler object at 0x72b8c0146150>[0m
+    [36m         │              └ [0m[36m[1m<acestep.handler.AceStepHandler object at 0x72b91733fef0>[0m
+    [36m         └ [0m[36m[1m<function generate_music at 0x72b8ee961f80>[0m
+
+  File "[32m/home/runner/work/music-factory/music-factory/ace/acestep/[0m[32m[1minference.py[0m", line [33m916[0m, in [35mgenerate_music[0m
+    [1mresult[0m [35m[1m=[0m [1mdit_handler[0m[35m[1m.[0m[1mgenerate_music[0m[1m([0m[35m[1m**[0m[1mfiltered_generate_kwargs[0m[1m)[0m
+    [36m         │           │                └ [0m[36m[1m{'captions': 'deep house, instrumental, 120 bpm groove, warm vintage Rhodes electric piano playing lush jazzy seventh and nin...[0m
+    [36m         │           └ [0m[36m[1m<function GenerateMusicMixin.generate_music at 0x72b8ef147ba0>[0m
+    [36m         └ [0m[36m[1m<acestep.handler.AceStepHandler object at 0x72b91733fef0>[0m
+
+> File "[32m/home/runner/work/music-factory/music-factory/ace/acestep/core/generation/handler/[0m[32m[1mgenerate_music.py[0m", line [33m424[0m, in [35mgenerate_music[0m
+    [1mservice_run[0m [35m[1m=[0m [1mself[0m[35m[1m.[0m[1m_run_generate_music_service_with_progress[0m[1m([0m
+    [36m              │    └ [0m[36m[1m<function GenerateMusicExecuteMixin._run_generate_music_service_with_progress at 0x72b8ef004180>[0m
+    [36m              └ [0m[36m[1m<acestep.handler.AceStepHandler object at 0x72b91733fef0>[0m
+
+  File "[32m/home/runner/work/music-factory/music-factory/ace/acestep/core/generation/handler/[0m[32m[1mgenerate_music_execute.py[0m", line [33m154[0m, in [35m_run_generate_music_service_with_progress[0m
+    [35m[1mraise[0m [1mTimeoutError[0m[1m([0m
+
+[31m[1mTimeoutError[0m:[1m Music generation timed out after 600 seconds.  This usually means the GPU ran out of VRAM or the diffusion loop stalled.  Try reducing batch size, duration, or inference steps.[0m
+track 0 take 1: failed Music generation timed out after 600 seconds.  This usually means the GPU ran out of VRAM or the diffusion loop stalled.  Try reducing batch size, duration, or inference steps.
+[32m2026-10-28 01:53:59.510[0m | [1mINFO    [0m | [36macestep.inference[0m:[36mgenerate_music[0m:[36m662[0m - [1m[generate_music] LLM usage decision: thinking=False, use_cot_caption=True, use_cot_language=True, use_cot_metas=True, need_lm_for_cot=True, llm_initialized=False, use_lm=False[0m
+[32m2026-10-28 01:53:59.510[0m | [1mINFO    [0m | [36macestep.core.generation.handler.generate_music[0m:[36mgenerate_music[0m:[36m313[0m - [1m[generate_music] Turbo model detected: overriding guidance_scale 7.0 -> 1.0 (turbo does not use CFG).[0m
+[32m2026-10-28 01:53:59.510[0m | [1mINFO    [0m | [36macestep.core.generation.handler.generate_music[0m:[36mgenerate_music[0m:[36m329[0m - [1m[generate_music] Starting generation...[0m
+[32m2026-10-28 01:53:59.510[0m | [1mINFO    [0m | [36macestep.core.generation.handler.generate_music[0m:[36mgenerate_music[0m:[36m332[0m - [1m[generate_music] Preparing inputs...[0m
+[32m2026-10-28 01:53:59.578[0m | [1mINFO    [0m | [36macestep.core.generation.handler.progress[0m:[36m_start_diffusion_progress_estimator[0m:[36m179[0m - [1m[progress] No timing history — using fallback estimate (2.5s/step for batch_size=1).  This will self-calibrate after the first generation.[0m
+[32m2026-10-28 01:53:59.764[0m | [1mINFO    [0m | [36macestep.core.generation.handler.conditioning_text[0m:[36m_prepare_text_conditioning_inputs[0m:[36m119[0m - [1m
+======================================================================[0m
+[32m2026-10-28 01:53:59.764[0m | [1mINFO    [0m | [36macestep.core.generation.handler.conditioning_text[0m:[36m_prepare_text_conditioning_inputs[0m:[36m120[0m - [1m🔍 [DEBUG] DiT TEXT ENCODER INPUT (Inference)[0m
+[32m2026-10-28 01:53:59.764[0m | [1mINFO    [0m | [36macestep.core.generation.handler.conditioning_text[0m:[36m_prepare_text_conditioning_inputs[0m:[36m121[0m - [1m======================================================================[0m
+[32m2026-10-28 01:53:59.764[0m | [1mINFO    [0m | [36macestep.core.generation.handler.conditioning_text[0m:[36m_prepare_text_conditioning_inputs[0m:[36m122[0m - [1mtext_prompt:
+# Instruction
+Fill the audio semantic mask based on the given conditions:
+
+# Caption
+deep house, instrumental, 120 bpm groove, warm vintage Rhodes electric piano playing lush jazzy seventh and ninth chords, live-played round electric bass, punchy but soft 909 kick, crisp swung hi-hats and shakers, subtle clap on two and four, analog tape warmth, spacious plate reverb, sidechained pads, professional studio mix and mastering, wide stereo image, clean low end, classy lounge atmosphere, steady hypnotic flow for focus, polished like a major label club release, no vocals, sunset terrace in Ibiza, airy pads, filtered guitar licks far in the background
+
+# Metas
+- bpm: 118
+- timesignature: 4
+- keyscale: E minor
+- duration: 210 seconds
+<|endoftext|>
+[0m
+[32m2026-10-28 01:53:59.765[0m | [1mINFO    [0m | [36macestep.core.generation.handler.conditioning_text[0m:[36m_prepare_text_conditioning_inputs[0m:[36m123[0m - [1m======================================================================[0m
+[32m2026-10-28 01:53:59.765[0m | [1mINFO    [0m | [36macestep.core.generation.handler.conditioning_text[0m:[36m_prepare_text_conditioning_inputs[0m:[36m124[0m - [1mlyrics_text:
+# Languages
+unknown
+
+# Lyric
+[Instrumental]
+[Intro - Rhodes and hats]
+[Groove - full beat with bass]
+[Main theme - Rhodes chords]
+[Breakdown - pads and Rhodes only]
+[Build - filter rise]
+[Groove - full beat, variation]
+[Outro - beat fades]<|endoftext|>[0m
+[32m2026-10-28 01:53:59.765[0m | [1mINFO    [0m | [36macestep.core.generation.handler.conditioning_text[0m:[36m_prepare_text_conditioning_inputs[0m:[36m125[0m - [1m======================================================================
+[0m
+[32m2026-10-28 01:53:59.798[0m | [1mINFO    [0m | [36macestep.core.generation.handler.conditioning_embed[0m:[36mpreprocess_batch[0m:[36m110[0m - [1m[preprocess_batch] Inferring prompt embeddings...[0m
+[32m2026-10-28 01:54:11.349[0m | [1mINFO    [0m | [36macestep.core.generation.handler.conditioning_embed[0m:[36mpreprocess_batch[0m:[36m113[0m - [1m[preprocess_batch] Inferring lyric embeddings...[0m
+[32m2026-10-28 01:54:11.349[0m | [1mINFO    [0m | [36macestep.core.generation.handler.service_generate_execute[0m:[36m_execute_service_generate_diffusion[0m:[36m173[0m - [1m[service_generate] Generating audio... (DiT backend: PyTorch (cpu))[0m
+[32m2026-10-28 01:57:25.553[0m | [1mINFO    [0m | [36macestep.core.generation.handler.service_generate_execute[0m:[36m_execute_service_generate_diffusion[0m:[36m276[0m - [1m[service_generate] DiT diffusion via PyTorch (cpu)...[0m
+[32m2026-10-28 02:00:25.120[0m | [1mINFO    [0m | [36macestep.models.common.dcw_correction[0m:[36m__init__[0m:[36m98[0m - [1m[DCW] Active — mode=double, scaler=0.0500, high_scaler=0.0200, wavelet='haar'[0m
+[32m2026-10-28 02:03:59.581[0m | [31m[1mERROR   [0m | [36macestep.core.generation.handler.generate_music_execute[0m:[36m_run_generate_music_service_with_progress[0m:[36m148[0m - [31m[1m[generate_music] service_generate exceeded 600s timeout (batch=1, steps=8, duration=210.0s).  The CUDA operation may still be running in the background.[0m
+[32m2026-10-28 02:03:59.582[0m | [31m[1mERROR   [0m | [36macestep.core.generation.handler.generate_music[0m:[36mgenerate_music[0m:[36m522[0m - [31m[1m[generate_music] Generation failed[0m
+[33m[1mTraceback (most recent call last):[0m
+
+  File "[32m/home/runner/work/music-factory/music-factory/ace/../[0m[32m[1mgenerate.py[0m", line [33m210[0m, in [35m<module>[0m
+    [35m[1mraise[0m [1mSystemExit[0m[1m([0m[1mmain[0m[1m([0m[1m)[0m[1m)[0m
+    [36m                 └ [0m[36m[1m<function main at 0x72b91733afc0>[0m
+
+  File "[32m/home/runner/work/music-factory/music-factory/ace/../[0m[32m[1mgenerate.py[0m", line [33m173[0m, in [35mmain[0m
+    [1mresult[0m [35m[1m=[0m [1mgenerate_music[0m[1m([0m[1mdit[0m[1m,[0m [1mllm[0m[1m,[0m [1mparams[0m[1m,[0m [1mconfig[0m[1m,[0m [1msave_dir[0m[35m[1m=[0m[1mstr[0m[1m([0m[1mout[0m [35m[1m/[0m [36m"raw"[0m[1m)[0m[1m)[0m
+    [36m         │              │    │    │       │                    └ [0m[36m[1mPosixPath('../out')[0m
+    [36m         │              │    │    │       └ [0m[36m[1mGenerationConfig(batch_size=1, allow_lm_batch=False, use_random_seed=True, seeds=None, lm_batch_chunk_size=8, constrained_dec...[0m
+    [36m         │              │    │    └ [0m[36m[1mGenerationParams(task_type='text2music', instruction='Fill the audio semantic mask based on the given conditions:', reference...[0m
+    [36m         │              │    └ [0m[36m[1m<acestep.llm_inference.LLMHandler object at 0x72b8c0146150>[0m
+    [36m         │              └ [0m[36m[1m<acestep.handler.AceStepHandler object at 0x72b91733fef0>[0m
+    [36m         └ [0m[36m[1m<function generate_music at 0x72b8ee961f80>[0m
+
+  File "[32m/home/runner/work/music-factory/music-factory/ace/acestep/[0m[32m[1minference.py[0m", line [33m916[0m, in [35mgenerate_music[0m
+    [1mresult[0m [35m[1m=[0m [1mdit_handler[0m[35m[1m.[0m[1mgenerate_music[0m[1m([0m[35m[1m**[0m[1mfiltered_generate_kwargs[0m[1m)[0m
+    [36m         │           │                └ [0m[36m[1m{'captions': 'deep house, instrumental, 120 bpm groove, warm vintage Rhodes electric piano playing lush jazzy seventh and nin...[0m
+    [36m         │           └ [0m[36m[1m<function GenerateMusicMixin.generate_music at 0x72b8ef147ba0>[0m
+    [36m         └ [0m[36m[1m<acestep.handler.AceStepHandler object at 0x72b91733fef0>[0m
+
+> File "[32m/home/runner/work/music-factory/music-factory/ace/acestep/core/generation/handler/[0m[32m[1mgenerate_music.py[0m", line [33m424[0m, in [35mgenerate_music[0m
+    [1mservice_run[0m [35m[1m=[0m [1mself[0m[35m[1m.[0m[1m_run_generate_music_service_with_progress[0m[1m([0m
+    [36m              │    └ [0m[36m[1m<function GenerateMusicExecuteMixin._run_generate_music_service_with_progress at 0x72b8ef004180>[0m
+    [36m              └ [0m[36m[1m<acestep.handler.AceStepHandler object at 0x72b91733fef0>[0m
+
+  File "[32m/home/runner/work/music-factory/music-factory/ace/acestep/core/generation/handler/[0m[32m[1mgenerate_music_execute.py[0m", line [33m154[0m, in [35m_run_generate_music_service_with_progress[0m
+    [35m[1mraise[0m [1mTimeoutError[0m[1m([0m
+
+[31m[1mTimeoutError[0m:[1m Music generation timed out after 600 seconds.  This usually means the GPU ran out of VRAM or the diffusion loop stalled.  Try reducing batch size, duration, or inference steps.[0m
+track 0 take 2: failed Music generation timed out after 600 seconds.  This usually means the GPU ran out of VRAM or the diffusion loop stalled.  Try reducing batch size, duration, or inference steps.
+kept 0/1, rejected takes 0
