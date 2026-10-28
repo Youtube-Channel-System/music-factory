@@ -57,9 +57,15 @@ STYLES: list[tuple[str, int, str]] = [
      "lounge house, refined, elegant, old money, luxurious, soft grand piano voicings, "
      "jazzy rhodes chords, round upright-style bassline, brushed hi-hats, soft kick, "
      "subtle vinyl warmth, no vocals, hi-fi, polished mix, wide stereo, {bpm} bpm"),
-    ("sax-sunset", 1,
+    ("sax-sunset", 2,
      "chill house, smooth, golden hour, soft saxophone phrases, lush rhodes, warm bassline, "
      "crisp percussion, no vocals, hi-fi, polished mix, wide stereo, {bpm} bpm"),
+    # The "boutique store" deep house that drives 2luckyivan's 973k-view mix: soulful,
+    # dubby, rolling, a sax or vocal-less horn hook over a steady groove.
+    ("boutique-deep", 3,
+     "soulful deep house, boutique, classy, dubby organic groove, rolling bassline, "
+     "steady four-on-the-floor kick, smooth saxophone hook, warm rhodes stabs, shakers, "
+     "deep reverb, no vocals, hi-fi, polished mix, wide stereo, {bpm} bpm"),
 ]  # fmt: skip
 STRUCTURES = [
     "[intro]\n\n[inst]\n\n[breakdown]\n\n[inst]\n\n[outro]",
