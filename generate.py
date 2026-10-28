@@ -294,6 +294,18 @@ def main() -> int:
                 check=True,
             )  # fmt: skip
             wav.unlink(missing_ok=True)
+            try:  # objective scorecard goes into the catalog (see analyze.py); never blocks
+                import analyze
+
+                rep = analyze.analyze(out / name)
+                rep.update(analyze.score(rep))
+                stats.update(
+                    score=rep["total"], lufs=rep["lufs"], true_peak=rep["true_peak"],
+                    rolloff_hz=rep["rolloff_hz"], dynamics_db=rep["dynamics_db"],
+                )  # fmt: skip
+                print(f"track {i} scorecard {rep['total']}/100", flush=True)
+            except Exception as e:  # analysis is advisory
+                print(f"track {i} scorecard skipped: {e}", flush=True)
             manifest.append(
                 {
                     "file": name,

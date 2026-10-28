@@ -26,6 +26,7 @@ CSV_FIELDS = [
     "track_id", "title", "artist", "genre", "subgenre", "bpm", "key", "duration",
     "file", "style", "created_at", "release_status", "release_date", "isrc", "upc",
     "album", "explicit", "language", "ai_disclosure", "model", "seed", "caption",
+    "quality_score", "lufs", "true_peak", "rolloff_hz",
 ]  # fmt: skip
 MANUAL = ("release_status", "release_date", "isrc", "upc", "album")
 
@@ -71,6 +72,10 @@ def row(t: dict) -> dict:
         "model": t.get("model", ""),
         "seed": t.get("seed", ""),
         "caption": t.get("caption", ""),
+        "quality_score": (t.get("qa") or {}).get("score", ""),
+        "lufs": (t.get("qa") or {}).get("lufs", ""),
+        "true_peak": (t.get("qa") or {}).get("true_peak", ""),
+        "rolloff_hz": (t.get("qa") or {}).get("rolloff_hz", ""),
     }
 
 
