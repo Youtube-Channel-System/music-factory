@@ -13,7 +13,7 @@ on:
         description: Tracks per job (5-min tracks take ~70 min each on CPU; 3 fit in a job)
         default: "3"
       seconds:
-        description: Length of each track in seconds (5 min: DJ-set feel, ~12 tracks per 1-hour mix)
+        description: Length of each track in seconds (5 min - DJ-set feel, ~12 tracks per 1-hour mix)
         default: "300"
       model:
         description: ACE-Step DiT (acestep-v15-xl-turbo = best quality, acestep-v15-turbo = faster)
