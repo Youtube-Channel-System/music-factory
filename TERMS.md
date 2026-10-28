@@ -2,4 +2,4 @@
 
 This software is a personal automation tool operated by its owner for their own YouTube channel. It is provided as is, without warranty. It is not offered to third parties.
 
-Contact: felibridge49@gmail.com
+Contact: open an issue at https://github.com/Youtube-Channel-System/music-factory/issues

@@ -7,4 +7,4 @@ FOCUS & CO engine is a private automation that uploads the owner's own music vid
 - The authorization token is stored only as an encrypted GitHub Actions secret owned by the channel owner and can be revoked at any time at https://myaccount.google.com/permissions.
 - Use of information received from Google APIs adheres to the Google API Services User Data Policy, including the Limited Use requirements.
 
-Contact: felibridge49@gmail.com
+Contact: open an issue at https://github.com/Youtube-Channel-System/music-factory/issues
