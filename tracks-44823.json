@@ -1,0 +1,138 @@
+[
+  {
+    "file": "fc4-44823-00.mp3",
+    "title": "Zero Distractions",
+    "creator": "FOCUS & CO",
+    "license": "original",
+    "duration_s": 230.0,
+    "tags": [
+      "deep house",
+      "lounge",
+      "instrumental",
+      "121 bpm",
+      "A minor"
+    ],
+    "bpm": 121,
+    "key": "A minor",
+    "style": "sax-sunset",
+    "caption": "soulful deep house, chill, instrumental. Smooth tenor saxophone phrases, lush Rhodes chords, warm bassline, crisp percussion, soft claps, a muted trumpet answers the sax once in a while. Golden hour, relaxed and classy. Hi-fi mix, wide stereo, 121 bpm",
+    "structure": "[Intro - soft pads] [Instrumental - deep groove] [Breakdown - trumpet solo over chords] [Instrumental - full groove] [Instrumental] [Outro]",
+    "seed": 137436296,
+    "model": "acestep-v15-xl-turbo",
+    "lm": "acestep-5Hz-lm-1.7B",
+    "generator": "music-factory v4",
+    "created_at": "2026-10-29T18:16:27Z",
+    "qa": {
+      "peak": 0.82,
+      "quiet": 0.007,
+      "bpm_found": 119.7,
+      "score": 71,
+      "lufs": -13.6,
+      "true_peak": -0.9,
+      "rolloff_hz": 12270,
+      "dynamics_db": 4.2
+    }
+  },
+  {
+    "file": "fc4-44823-01.mp3",
+    "title": "Cold Session",
+    "creator": "FOCUS & CO",
+    "license": "original",
+    "duration_s": 230.0,
+    "tags": [
+      "deep house",
+      "lounge",
+      "instrumental",
+      "120 bpm",
+      "C major"
+    ],
+    "bpm": 120,
+    "key": "C major",
+    "style": "lounge-piano",
+    "caption": "deep house, lounge, instrumental. Warm Rhodes and soft grand piano playing minor seventh and ninth chords, round low-passed bassline, laid-back 909 kick, crisp shuffled hi-hats, light shaker, a distant muted trumpet plays short soft phrases now and then. Elegant, smooth, late-night cocktail bar mood. Hi-fi studio mix, warm analog tape, wide stereo, clean low end, 120 bpm",
+    "structure": "[Intro - filtered Rhodes and soft kick] [Instrumental - full groove] [Breakdown - piano and pads, no kick] [Instrumental - groove returns with trumpet] [Outro - elements fade out]",
+    "seed": 2090481662,
+    "model": "acestep-v15-xl-turbo",
+    "lm": "acestep-5Hz-lm-1.7B",
+    "generator": "music-factory v4",
+    "created_at": "2026-10-29T19:07:42Z",
+    "qa": {
+      "peak": 0.8,
+      "quiet": 0.013,
+      "bpm_found": 119.7,
+      "score": 75,
+      "lufs": -13.7,
+      "true_peak": -0.7,
+      "rolloff_hz": 14504,
+      "dynamics_db": 6.6
+    }
+  },
+  {
+    "file": "fc4-44823-02.mp3",
+    "title": "Single Task",
+    "creator": "FOCUS & CO",
+    "license": "original",
+    "duration_s": 230.0,
+    "tags": [
+      "deep house",
+      "lounge",
+      "instrumental",
+      "122 bpm",
+      "D minor"
+    ],
+    "bpm": 122,
+    "key": "D minor",
+    "style": "jazzy-lounge",
+    "caption": "jazzy deep house, lounge, instrumental. Rhodes ninth chords, warm upright-style bassline, brushed hi-hats, soft kick, muted trumpet melody with gentle reverb, occasional vibraphone notes. Sophisticated hotel lobby mood, nu jazz feel. Hi-fi mix, subtle tape saturation, wide stereo, 122 bpm",
+    "structure": "[Intro - filtered Rhodes and soft kick] [Instrumental - full groove] [Breakdown - piano and pads, no kick] [Instrumental - groove returns with trumpet] [Outro - elements fade out]",
+    "seed": 965582133,
+    "model": "acestep-v15-xl-turbo",
+    "lm": "acestep-5Hz-lm-1.7B",
+    "generator": "music-factory v4",
+    "created_at": "2026-10-29T19:57:30Z",
+    "qa": {
+      "peak": 0.73,
+      "quiet": 0.0,
+      "bpm_found": 122.3,
+      "score": 76,
+      "lufs": -13.4,
+      "true_peak": -0.8,
+      "rolloff_hz": 13974,
+      "dynamics_db": 8.1
+    }
+  },
+  {
+    "file": "fc4-44823-03.mp3",
+    "title": "Midnight Rhythm",
+    "creator": "FOCUS & CO",
+    "license": "original",
+    "duration_s": 230.0,
+    "tags": [
+      "deep house",
+      "lounge",
+      "instrumental",
+      "122 bpm",
+      "C major"
+    ],
+    "bpm": 122,
+    "key": "C major",
+    "style": "jazzy-lounge",
+    "caption": "jazzy deep house, lounge, instrumental. Rhodes ninth chords, warm upright-style bassline, brushed hi-hats, soft kick, muted trumpet melody with gentle reverb, occasional vibraphone notes. Sophisticated hotel lobby mood, nu jazz feel. Hi-fi mix, subtle tape saturation, wide stereo, 122 bpm",
+    "structure": "[Intro - filtered Rhodes and soft kick] [Instrumental - full groove] [Breakdown - piano and pads, no kick] [Instrumental - groove returns with trumpet] [Outro - elements fade out]",
+    "seed": 1689510082,
+    "model": "acestep-v15-xl-turbo",
+    "lm": "acestep-5Hz-lm-1.7B",
+    "generator": "music-factory v4",
+    "created_at": "2026-10-29T20:46:49Z",
+    "qa": {
+      "peak": 0.78,
+      "quiet": 0.027,
+      "bpm_found": 122.3,
+      "score": 80,
+      "lufs": -13.6,
+      "true_peak": -0.9,
+      "rolloff_hz": 11706,
+      "dynamics_db": 7.9
+    }
+  }
+]
