@@ -31,49 +31,65 @@ import time
 from datetime import UTC, datetime
 from pathlib import Path
 
-GENERATOR = "music-factory v3"
+GENERATOR = "music-factory v4"
 
-# Sub-styles of the same sound. Weights favour the piano/Rhodes lounge core.
+# Sub-styles of the same sound (v4). Captions follow the ACE-Step 1.5 guide: genre first,
+# then a session-musician description with concrete instruments, harmony, groove and mix.
+# Research notes (deep house): 118-124 BPM, jazz voicings (minor 7ths and 9ths), Rhodes and
+# piano, slow-attack pads, low-passed melodic bass, laid-back 909-style 4/4 drums, long
+# builds and breakdowns. Owner's request: a light, distant muted trumpet on top.
+TRUMPET = "a distant muted trumpet plays short soft phrases now and then"
 STYLES: list[tuple[str, int, str]] = [
     ("lounge-piano", 4,
-     "deep house, lounge, smooth, warm, elegant, soft grand piano chords, rhodes electric piano, "
-     "round warm bassline, crisp shuffled hi-hats, soft kick, subtle shaker, no vocals, "
-     "hi-fi, polished mix, wide stereo, {bpm} bpm"),
+     "deep house, lounge, instrumental. Warm Rhodes and soft grand piano playing minor "
+     "seventh and ninth chords, round low-passed bassline, laid-back 909 kick, crisp "
+     "shuffled hi-hats, light shaker, " + TRUMPET + ". Elegant, smooth, late-night cocktail "
+     "bar mood. Hi-fi studio mix, warm analog tape, wide stereo, clean low end, {bpm} bpm"),
     ("melodic-night", 3,
-     "melodic deep house, elegant, late night, felt piano melody, deep warm sub bass, "
-     "filtered analog pads, soft claps, subtle percussion, no vocals, hi-fi, analog warmth, "
-     "wide stereo, {bpm} bpm"),
-    ("jazzy-lounge", 3,
-     "lounge house, jazzy, sophisticated, rhodes seventh chords, muted trumpet phrases, "
-     "warm walking bassline, brushed hi-hats, soft kick, no vocals, hi-fi, tape saturation, "
-     "{bpm} bpm"),
+     "melodic deep house, instrumental. Felt piano melody over slow-attack analog pads, "
+     "deep warm sub bass, soft claps, rolling percussion, " + TRUMPET + " in the breakdown. "
+     "Cinematic, nocturnal, focused. Hi-fi mix, lush reverb, wide stereo, punchy but soft "
+     "kick, {bpm} bpm"),
+    ("jazzy-lounge", 4,
+     "jazzy deep house, lounge, instrumental. Rhodes ninth chords, warm upright-style "
+     "bassline, brushed hi-hats, soft kick, muted trumpet melody with gentle reverb, "
+     "occasional vibraphone notes. Sophisticated hotel lobby mood, nu jazz feel. Hi-fi "
+     "mix, subtle tape saturation, wide stereo, {bpm} bpm"),
+    ("old-money-lounge", 4,
+     "lounge house, deep house, instrumental. Soft grand piano voicings, jazzy Rhodes "
+     "chords, round warm bassline, brushed hi-hats, gentle four-on-the-floor kick, "
+     "light congas, " + TRUMPET + ". Refined, luxurious, old money, private members club. "
+     "Polished hi-fi mix, subtle vinyl warmth, wide stereo, {bpm} bpm"),
     ("organic-guitar", 2,
-     "deep house, soulful, organic, nylon guitar licks, warm rhodes chords, rolling bassline, "
-     "congas, soft claps, no vocals, hi-fi, polished mix, wide stereo, {bpm} bpm"),
-    ("hypnotic-focus", 2,
-     "deep house, hypnotic, focused, minimal piano stabs, warm analog bass, sidechain pumping "
-     "pads, tight hi-hats, soft kick, no vocals, polished, wide stereo, {bpm} bpm"),
-    ("old-money-lounge", 3,
-     "lounge house, refined, elegant, old money, luxurious, soft grand piano voicings, "
-     "jazzy rhodes chords, round upright-style bassline, brushed hi-hats, soft kick, "
-     "subtle vinyl warmth, no vocals, hi-fi, polished mix, wide stereo, {bpm} bpm"),
+     "organic deep house, soulful, instrumental. Nylon guitar licks, warm Rhodes chords, "
+     "rolling bassline, congas and bongos, soft claps, " + TRUMPET + ". Sunset terrace "
+     "mood, smooth and warm. Hi-fi mix, natural room reverb, wide stereo, {bpm} bpm"),
+    ("hypnotic-focus", 1,
+     "deep house, hypnotic, instrumental. Minimal piano stabs with seventh chords, warm "
+     "analog bass, sidechained pads, tight hi-hats, soft kick, sparse muted trumpet echo. "
+     "Focused, steady, deep work. Clean hi-fi mix, wide stereo, {bpm} bpm"),
     ("sax-sunset", 2,
-     "chill house, smooth, golden hour, soft saxophone phrases, lush rhodes, warm bassline, "
-     "crisp percussion, no vocals, hi-fi, polished mix, wide stereo, {bpm} bpm"),
-    # The "boutique store" deep house that drives 2luckyivan's 973k-view mix: soulful,
-    # dubby, rolling, a sax or vocal-less horn hook over a steady groove.
-    ("boutique-deep", 3,
-     "soulful deep house, boutique, classy, dubby organic groove, rolling bassline, "
-     "steady four-on-the-floor kick, smooth saxophone hook, warm rhodes stabs, shakers, "
-     "deep reverb, no vocals, hi-fi, polished mix, wide stereo, {bpm} bpm"),
+     "soulful deep house, chill, instrumental. Smooth tenor saxophone phrases, lush Rhodes "
+     "chords, warm bassline, crisp percussion, soft claps, a muted trumpet answers the sax "
+     "once in a while. Golden hour, relaxed and classy. Hi-fi mix, wide stereo, {bpm} bpm"),
+    ("boutique-deep", 4,
+     "soulful deep house, boutique store, instrumental. Steady four-on-the-floor kick, "
+     "dubby rolling bassline, warm Rhodes stabs with minor ninth chords, shakers and "
+     "rimshots, smooth saxophone hook, " + TRUMPET + ". Classy, groovy, upscale fashion "
+     "store. Hi-fi mix, deep spacious reverb, wide stereo, {bpm} bpm"),
 ]  # fmt: skip
 STRUCTURES = [
-    "[intro]\n\n[inst]\n\n[breakdown]\n\n[inst]\n\n[outro]",
-    "[intro]\n\n[inst]\n\n[inst]\n\n[breakdown]\n\n[build-up]\n\n[inst]\n\n[outro]",
-    "[intro]\n\n[inst]\n\n[breakdown]\n\n[inst]\n\n[inst]\n\n[outro]",
+    "[Intro - filtered Rhodes and soft kick]\n\n[Instrumental - full groove]\n\n"
+    "[Breakdown - piano and pads, no kick]\n\n[Instrumental - groove returns with trumpet]"
+    "\n\n[Outro - elements fade out]",
+    "[Intro - percussion and bass]\n\n[Instrumental - chords enter]\n\n"
+    "[Instrumental - melody on top]\n\n[Breakdown - soft pads]\n\n[Build-up]\n\n"
+    "[Instrumental - full groove]\n\n[Outro]",
+    "[Intro - soft pads]\n\n[Instrumental - deep groove]\n\n[Breakdown - trumpet solo "
+    "over chords]\n\n[Instrumental - full groove]\n\n[Instrumental]\n\n[Outro]",
 ]
 KEYS = ["A minor", "D minor", "E minor", "G minor", "C minor", "F minor", "B minor", "C major"]
-BPMS = [118, 120, 120, 121, 122, 122, 123, 124]
+BPMS = [118, 119, 120, 120, 121, 122, 122, 123]
 
 # Mastering for streaming: clean sub, light glue, -14 LUFS integrated, -1 dBTP ceiling.
 def master_chain(seconds: float) -> str:
@@ -220,6 +236,8 @@ def main() -> int:
     p.add_argument("--catalog", default="", help="catalog/tracks.json, to keep titles unique")
     p.add_argument("--model", default="acestep-v15-xl-turbo", help="DiT checkpoint")
     p.add_argument("--lm", default="acestep-5Hz-lm-1.7B", help="planner LM, or 'none'")
+    p.add_argument("--shift", type=float, default=3.0, help="timestep shift (guide: 3.0 for turbo)")
+    p.add_argument("--steps", type=int, default=8, help="denoising steps (turbo: 8, max 20)")
     args = p.parse_args()
 
     sys.path.insert(0, str(Path.cwd()))
@@ -279,6 +297,8 @@ def main() -> int:
                 keyscale=key,
                 timesignature="4",
                 duration=args.seconds,
+                shift=args.shift,
+                inference_steps=args.steps,
                 thinking=thinking,
                 use_cot_caption=False,  # keep our caption: every track stays on-style
                 use_cot_metas=False,  # BPM and key are ours too
@@ -300,7 +320,7 @@ def main() -> int:
                 rejected += 1
                 wav.unlink(missing_ok=True)
                 continue
-            name = f"fc3-{args.seed:05d}-{i:02d}.mp3"
+            name = f"fc4-{args.seed:05d}-{i:02d}.mp3"
             subprocess.run(
                 [ffmpeg(), "-y", "-loglevel", "error", "-i", str(wav),
                  "-af", master_chain(args.seconds), "-ar", "44100", "-b:a", "320k",
