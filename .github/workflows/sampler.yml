@@ -1,0 +1,45 @@
+name: sampler
+
+# Puts the best tracks of each sub-style on the `sampler` branch so they can be
+# listened to and rated by ear. Nothing is generated and nothing is published.
+on:
+  workflow_dispatch:
+    inputs:
+      per_style:
+        description: Tracks per style
+        default: "2"
+
+permissions:
+  contents: write
+
+jobs:
+  sampler:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Collect the tracks
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python3 sampler.py "${{ inputs.per_style }}" > picks.tsv
+          cat picks.tsv
+          mkdir -p pack
+          while IFS=$'\t' read -r file style score title bpm; do
+            safe=$(echo "$title" | tr -c 'A-Za-z0-9\n' '_' | cut -c1-40)
+            gh release download library -R "$GITHUB_REPOSITORY" -p "$file" -D pack --clobber
+            mv "pack/$file" "pack/${style}__q${score}__${bpm}bpm__${safe}.mp3"
+          done < picks.tsv
+          cp picks.tsv pack/picks.tsv
+          du -sh pack
+      - name: Push to the sampler branch
+        run: |
+          rm -rf /tmp/s && mkdir /tmp/s && cd /tmp/s
+          git init -q -b sampler
+          git remote add origin "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}"
+          git fetch -q origin sampler && git reset -q --soft FETCH_HEAD || true
+          git rm -rq --cached . 2>/dev/null || true
+          cp -r "$GITHUB_WORKSPACE"/pack/. .
+          git config user.name "Claude"; git config user.email "noreply@anthropic.com"
+          git add -A && git commit -q -m "sampler ${GITHUB_RUN_ID}"
+          git push -q origin HEAD:sampler
