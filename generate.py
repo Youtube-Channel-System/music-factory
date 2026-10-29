@@ -209,7 +209,7 @@ def main() -> int:
     p = argparse.ArgumentParser()
     p.add_argument("--out", default="out")
     p.add_argument("--count", type=int, default=2)
-    p.add_argument("--seconds", type=float, default=300)
+    p.add_argument("--seconds", type=float, default=230)
     p.add_argument("--seed", type=int, default=0)
     p.add_argument("--retries", type=int, default=2)
     p.add_argument("--shard", type=int, default=1)

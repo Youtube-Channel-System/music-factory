@@ -10,11 +10,11 @@ on:
         description: Parallel jobs (1-20)
         default: "12"
       per_shard:
-        description: Tracks per job (5-min tracks take ~70 min each on CPU; 3 fit in a job)
-        default: "3"
+        description: Tracks per job (about 45-50 min each on CPU; 5 fit in a job)
+        default: "5"
       seconds:
-        description: Length of each track in seconds (5 min - DJ-set feel, ~12 tracks per 1-hour mix)
-        default: "300"
+        description: Length of each track in seconds (the model tops out near 242 s, so 230 is the longest that passes)
+        default: "230"
       model:
         description: ACE-Step DiT (acestep-v15-xl-turbo = best quality, acestep-v15-turbo = faster)
         default: acestep-v15-xl-turbo
@@ -43,8 +43,8 @@ jobs:
       - id: p
         env:
           SHARDS: ${{ inputs.shards || '3' }}
-          PER: ${{ inputs.per_shard || '3' }}
-          SECS: ${{ inputs.seconds || '300' }}
+          PER: ${{ inputs.per_shard || '5' }}
+          SECS: ${{ inputs.seconds || '230' }}
           GH_TOKEN: ${{ github.token }}
         run: |
           n=$(( SHARDS < 1 ? 1 : (SHARDS > 20 ? 20 : SHARDS) ))
