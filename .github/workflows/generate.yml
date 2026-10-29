@@ -25,9 +25,10 @@ on:
         description: Add to the library release (off = only to a lab branch to listen first)
         type: boolean
         default: true
-  # Weekly top-up, paused until the v3 sound is approved by ear:
-  # schedule:
-  #   - cron: "17 6 * * 1"
+  # Automatic top-up, no human needed: 16 jobs x 5 tracks every Sunday = ~80 new tracks a
+  # week, more than the 4 videos a week the channel publishes (each uses its own ~16 tracks).
+  schedule:
+    - cron: "17 3 * * 0"
 
 permissions:
   contents: write
@@ -42,7 +43,7 @@ jobs:
     steps:
       - id: p
         env:
-          SHARDS: ${{ inputs.shards || '3' }}
+          SHARDS: ${{ inputs.shards || '16' }}
           PER: ${{ inputs.per_shard || '5' }}
           SECS: ${{ inputs.seconds || '230' }}
           GH_TOKEN: ${{ github.token }}
