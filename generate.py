@@ -212,6 +212,9 @@ def main() -> int:
     p.add_argument("--seconds", type=float, default=230)
     p.add_argument("--seed", type=int, default=0)
     p.add_argument("--retries", type=int, default=2)
+    p.add_argument(
+        "--budget-min", type=float, default=270, help="stop starting takes after this many minutes"
+    )
     p.add_argument("--shard", type=int, default=1)
     p.add_argument("--run-seed", type=int, default=0, help="same for every shard of a run")
     p.add_argument("--catalog", default="", help="catalog/tracks.json, to keep titles unique")
@@ -255,8 +258,13 @@ def main() -> int:
     names = [s[0] for s in STYLES]
     weights = [s[1] for s in STYLES]
     manifest, rejected = [], 0
+    started = time.time()
+    manifest_path = out / f"tracks-{args.seed:05d}.json"
     for i in range(args.count):
         for attempt in range(args.retries + 1):
+            if time.time() - started > args.budget_min * 60:
+                print(f"time budget of {args.budget_min:.0f} min used: stopping early", flush=True)
+                break
             style = rng.choices(names, weights=weights, k=1)[0]
             bpm = rng.choice(BPMS)
             key = rng.choice(KEYS)
@@ -333,8 +341,9 @@ def main() -> int:
                     "qa": stats,
                 }
             )
+            manifest_path.write_text(json.dumps(manifest, indent=2))  # survives a cancelled job
             break
-    (out / f"tracks-{args.seed:05d}.json").write_text(json.dumps(manifest, indent=2))
+    manifest_path.write_text(json.dumps(manifest, indent=2))
     print(f"kept {len(manifest)}/{args.count}, rejected takes {rejected}", flush=True)
     return 0 if manifest else 1
 
