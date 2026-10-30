@@ -1,0 +1,113 @@
+[
+  {
+    "file": "fc5-21811-00.mp3",
+    "title": "Sharp Archive",
+    "creator": "FOCUS & CO",
+    "license": "original",
+    "duration_s": 230.0,
+    "tags": [
+      "deep house",
+      "lounge",
+      "instrumental",
+      "boutique-deep",
+      "120 bpm",
+      "F minor"
+    ],
+    "bpm": 120,
+    "key": "F minor",
+    "style": "boutique-deep",
+    "caption": "Instrumental deep house, boutique, no vocals. Dub chords, Rhodes stabs, round bass between the kicks, shakers and rimshots, smooth tenor saxophone phrases now and then. Classy, groovy, upscale store. Evolving arrangement: filtered intro, chords and lead enter gradually, a breakdown without kick, then a fuller groove; the melody develops instead of looping. Hi-fi studio mix, warm and clean. Instrumental only.",
+    "structure": "[Instrumental]",
+    "seed": 1350822013,
+    "model": "acestep-v15-xl-turbo",
+    "lm": "acestep-5Hz-lm-1.7B",
+    "generator": "music-factory v5",
+    "created_at": "2026-10-30T15:43:15Z",
+    "qa": {
+      "peak": 0.8,
+      "quiet": 0.002,
+      "bpm_found": 119.7,
+      "vocal_ratio": 0.013,
+      "vocal_loud_share": 0.009,
+      "score": 82,
+      "lufs": -13.7,
+      "true_peak": -0.9,
+      "rolloff_hz": 12279,
+      "dynamics_db": 4.2
+    }
+  },
+  {
+    "file": "fc5-21811-01.mp3",
+    "title": "Distant Hallway",
+    "creator": "FOCUS & CO",
+    "license": "original",
+    "duration_s": 230.0,
+    "tags": [
+      "deep house",
+      "lounge",
+      "instrumental",
+      "jazzy-deep",
+      "119 bpm",
+      "C major"
+    ],
+    "bpm": 119,
+    "key": "C major",
+    "style": "jazzy-deep",
+    "caption": "Instrumental jazzy deep house, nu jazz, no vocals. Rhodes and vibraphone ninth chords, walking-style warm bassline, crisp swung hi-hats, rimshots, soft kick, a flute or muted trumpet melody that develops. Sophisticated hotel lounge. Evolving arrangement: filtered intro, chords and lead enter gradually, a breakdown without kick, then a fuller groove; the melody develops instead of looping. Hi-fi studio mix, warm and clean. Instrumental only.",
+    "structure": "[Instrumental]",
+    "seed": 1480388172,
+    "model": "acestep-v15-xl-turbo",
+    "lm": "acestep-5Hz-lm-1.7B",
+    "generator": "music-factory v5",
+    "created_at": "2026-10-30T17:29:28Z",
+    "qa": {
+      "peak": 0.86,
+      "quiet": 0.0,
+      "bpm_found": 117.2,
+      "vocal_ratio": 0.046,
+      "vocal_loud_share": 0.009,
+      "score": 72,
+      "lufs": -13.8,
+      "true_peak": -0.8,
+      "rolloff_hz": 13796,
+      "dynamics_db": 4.9
+    }
+  },
+  {
+    "file": "fc5-21811-02.mp3",
+    "title": "Glass Compound",
+    "creator": "FOCUS & CO",
+    "license": "original",
+    "duration_s": 230.0,
+    "tags": [
+      "deep house",
+      "lounge",
+      "instrumental",
+      "old-money-bossa",
+      "121 bpm",
+      "G minor"
+    ],
+    "bpm": 121,
+    "key": "G minor",
+    "style": "old-money-bossa",
+    "caption": "Instrumental bossa house, lounge, no vocals. Nylon guitar bossa nova chords over a four-on-the-floor kick, jazzy piano voicings, warm upright-style bass, soft congas, gentle strings, a distant muted jazz trumpet adds a few soft phrases. Refined, luxurious, private members club. Evolving arrangement: filtered intro, chords and lead enter gradually, a breakdown without kick, then a fuller groove; the melody develops instead of looping. Hi-fi studio mix, warm and clean. Instrumental only.",
+    "structure": "[Instrumental]",
+    "seed": 1823038448,
+    "model": "acestep-v15-xl-turbo",
+    "lm": "acestep-5Hz-lm-1.7B",
+    "generator": "music-factory v5",
+    "created_at": "2026-10-30T18:22:46Z",
+    "qa": {
+      "peak": 0.82,
+      "quiet": 0.004,
+      "bpm_found": 122.3,
+      "vocal_ratio": 0.042,
+      "vocal_loud_share": 0.013,
+      "score": 74,
+      "lufs": -13.9,
+      "true_peak": -0.5,
+      "rolloff_hz": 13523,
+      "dynamics_db": 9.6
+    }
+  }
+]
