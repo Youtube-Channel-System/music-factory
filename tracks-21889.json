@@ -1,0 +1,113 @@
+[
+  {
+    "file": "fc5-21889-00.mp3",
+    "title": "Silent Grind",
+    "creator": "FOCUS & CO",
+    "license": "original",
+    "duration_s": 230.0,
+    "tags": [
+      "deep house",
+      "lounge",
+      "instrumental",
+      "boutique-deep",
+      "124 bpm",
+      "C major"
+    ],
+    "bpm": 124,
+    "key": "C major",
+    "style": "boutique-deep",
+    "caption": "Instrumental deep house, boutique, no vocals. Dub chords, Rhodes stabs, round bass between the kicks, shakers and rimshots, smooth tenor saxophone phrases now and then. Classy, groovy, upscale store. Evolving arrangement: filtered intro, chords and lead enter gradually, a breakdown without kick, then a fuller groove; the melody develops instead of looping. Hi-fi studio mix, warm and clean. Instrumental only.",
+    "structure": "[Instrumental]",
+    "seed": 1168611519,
+    "model": "acestep-v15-xl-turbo",
+    "lm": "acestep-5Hz-lm-1.7B",
+    "generator": "music-factory v5",
+    "created_at": "2026-10-30T15:42:31Z",
+    "qa": {
+      "peak": 0.66,
+      "quiet": 0.013,
+      "bpm_found": 125.0,
+      "vocal_ratio": 0.007,
+      "vocal_loud_share": 0.022,
+      "score": 81,
+      "lufs": -13.8,
+      "true_peak": -0.5,
+      "rolloff_hz": 13690,
+      "dynamics_db": 5.5
+    }
+  },
+  {
+    "file": "fc5-21889-01.mp3",
+    "title": "Clean Office",
+    "creator": "FOCUS & CO",
+    "license": "original",
+    "duration_s": 230.0,
+    "tags": [
+      "deep house",
+      "lounge",
+      "instrumental",
+      "jazzy-deep",
+      "122 bpm",
+      "C minor"
+    ],
+    "bpm": 122,
+    "key": "C minor",
+    "style": "jazzy-deep",
+    "caption": "Instrumental jazzy deep house, nu jazz, no vocals. Rhodes and vibraphone ninth chords, walking-style warm bassline, crisp swung hi-hats, rimshots, soft kick, a flute or muted trumpet melody that develops. Sophisticated hotel lounge. Evolving arrangement: filtered intro, chords and lead enter gradually, a breakdown without kick, then a fuller groove; the melody develops instead of looping. Hi-fi studio mix, warm and clean. Instrumental only.",
+    "structure": "[Instrumental]",
+    "seed": 82204720,
+    "model": "acestep-v15-xl-turbo",
+    "lm": "acestep-5Hz-lm-1.7B",
+    "generator": "music-factory v5",
+    "created_at": "2026-10-30T16:35:58Z",
+    "qa": {
+      "peak": 0.72,
+      "quiet": 0.018,
+      "bpm_found": 122.3,
+      "vocal_ratio": 0.023,
+      "vocal_loud_share": 0.022,
+      "score": 69,
+      "lufs": -13.6,
+      "true_peak": -0.0,
+      "rolloff_hz": 13835,
+      "dynamics_db": 9.6
+    }
+  },
+  {
+    "file": "fc5-21889-02.mp3",
+    "title": "Focused Window",
+    "creator": "FOCUS & CO",
+    "license": "original",
+    "duration_s": 230.0,
+    "tags": [
+      "deep house",
+      "lounge",
+      "instrumental",
+      "melodic-night",
+      "122 bpm",
+      "C major"
+    ],
+    "bpm": 122,
+    "key": "C major",
+    "style": "melodic-night",
+    "caption": "Instrumental melodic deep house, no vocals. Felt piano melody, slow analog pads, plucked synth arpeggio, deep warm sub bass, soft claps, rolling percussion. Nocturnal, cinematic, focused, wide reverb. Evolving arrangement: filtered intro, chords and lead enter gradually, a breakdown without kick, then a fuller groove; the melody develops instead of looping. Hi-fi studio mix, warm and clean. Instrumental only.",
+    "structure": "[Instrumental]",
+    "seed": 1500817550,
+    "model": "acestep-v15-xl-turbo",
+    "lm": "acestep-5Hz-lm-1.7B",
+    "generator": "music-factory v5",
+    "created_at": "2026-10-30T17:29:08Z",
+    "qa": {
+      "peak": 0.72,
+      "quiet": 0.013,
+      "bpm_found": 122.3,
+      "vocal_ratio": 0.088,
+      "vocal_loud_share": 0.039,
+      "score": 72,
+      "lufs": -13.7,
+      "true_peak": -0.6,
+      "rolloff_hz": 15154,
+      "dynamics_db": 6.1
+    }
+  }
+]
