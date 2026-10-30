@@ -86,6 +86,9 @@ jobs:
             --extra-index-url https://download.pytorch.org/whl/cpu
           pip install -q --no-deps -e .
           pip install -q --no-deps -e acestep/third_parts/nano-vllm || true
+          # Demucs (MIT) finds voice-like sounds so they can be removed (see generate.py devocal).
+          pip install -q --no-deps demucs dora-search julius openunmix lameenc einops \
+            && pip install -q omegaconf retrying submitit treetable || echo "demucs not installed"
           # bfloat16 on CPU: the XL model and the planner LM fit in the runner's RAM.
           sed -i 's/torch.bfloat16 if resolved_device == "xpu" else torch.float32/torch.bfloat16/' \
             acestep/core/generation/handler/init_service_orchestrator.py

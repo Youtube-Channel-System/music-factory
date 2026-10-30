@@ -16,7 +16,8 @@ the tags and the `bpm` field, key in `keyscale`, lowercase section markers for s
 and the planner LM kept from rewriting the caption so every track stays on-style.
 
 Each take passes an automatic quality check (length, silence, clipping, steady low end,
-tempo lock) and is mastered for streaming (-14 LUFS, -1 dBTP) before it is kept.
+tempo lock), has voice-like sounds removed with Demucs (takes with real singing are
+rejected), and is mastered for streaming (-14 LUFS, -1 dBTP) before it is kept.
 """
 
 from __future__ import annotations
@@ -31,65 +32,75 @@ import time
 from datetime import UTC, datetime
 from pathlib import Path
 
-GENERATOR = "music-factory v4"
+GENERATOR = "music-factory v5"
+PREFIX = "fc5"
 
-# Sub-styles of the same sound (v4). Captions follow the ACE-Step 1.5 guide: genre first,
-# then a session-musician description with concrete instruments, harmony, groove and mix.
-# Research notes (deep house): 118-124 BPM, jazz voicings (minor 7ths and 9ths), Rhodes and
-# piano, slow-attack pads, low-passed melodic bass, laid-back 909-style 4/4 drums, long
-# builds and breakdowns. Owner's request: a light, distant muted trumpet on top.
-TRUMPET = "a distant muted trumpet plays short soft phrases now and then"
-STYLES: list[tuple[str, int, str]] = [
-    ("lounge-piano", 4,
-     "deep house, lounge, instrumental. Warm Rhodes and soft grand piano playing minor "
-     "seventh and ninth chords, round low-passed bassline, laid-back 909 kick, crisp "
-     "shuffled hi-hats, light shaker, " + TRUMPET + ". Elegant, smooth, late-night cocktail "
-     "bar mood. Hi-fi studio mix, warm analog tape, wide stereo, clean low end, {bpm} bpm"),
-    ("melodic-night", 3,
-     "melodic deep house, instrumental. Felt piano melody over slow-attack analog pads, "
-     "deep warm sub bass, soft claps, rolling percussion, " + TRUMPET + " in the breakdown. "
-     "Cinematic, nocturnal, focused. Hi-fi mix, lush reverb, wide stereo, punchy but soft "
-     "kick, {bpm} bpm"),
-    ("jazzy-lounge", 4,
-     "jazzy deep house, lounge, instrumental. Rhodes ninth chords, warm upright-style "
-     "bassline, brushed hi-hats, soft kick, muted trumpet melody with gentle reverb, "
-     "occasional vibraphone notes. Sophisticated hotel lobby mood, nu jazz feel. Hi-fi "
-     "mix, subtle tape saturation, wide stereo, {bpm} bpm"),
-    ("old-money-lounge", 4,
-     "lounge house, deep house, instrumental. Soft grand piano voicings, jazzy Rhodes "
-     "chords, round warm bassline, brushed hi-hats, gentle four-on-the-floor kick, "
-     "light congas, " + TRUMPET + ". Refined, luxurious, old money, private members club. "
-     "Polished hi-fi mix, subtle vinyl warmth, wide stereo, {bpm} bpm"),
-    ("organic-guitar", 2,
-     "organic deep house, soulful, instrumental. Nylon guitar licks, warm Rhodes chords, "
-     "rolling bassline, congas and bongos, soft claps, " + TRUMPET + ". Sunset terrace "
-     "mood, smooth and warm. Hi-fi mix, natural room reverb, wide stereo, {bpm} bpm"),
-    ("hypnotic-focus", 1,
-     "deep house, hypnotic, instrumental. Minimal piano stabs with seventh chords, warm "
-     "analog bass, sidechained pads, tight hi-hats, soft kick, sparse muted trumpet echo. "
-     "Focused, steady, deep work. Clean hi-fi mix, wide stereo, {bpm} bpm"),
-    ("sax-sunset", 2,
-     "soulful deep house, chill, instrumental. Smooth tenor saxophone phrases, lush Rhodes "
-     "chords, warm bassline, crisp percussion, soft claps, a muted trumpet answers the sax "
-     "once in a while. Golden hour, relaxed and classy. Hi-fi mix, wide stereo, {bpm} bpm"),
-    ("boutique-deep", 4,
-     "soulful deep house, boutique store, instrumental. Steady four-on-the-floor kick, "
-     "dubby rolling bassline, warm Rhodes stabs with minor ninth chords, shakers and "
-     "rimshots, smooth saxophone hook, " + TRUMPET + ". Classy, groovy, upscale fashion "
-     "store. Hi-fi mix, deep spacious reverb, wide stereo, {bpm} bpm"),
+# v5 (owner: "less repetitive, no strange voices in the background").
+# Research notes (deep house / lounge / organic / deep tech): 118-124 BPM, kick dead on the
+# beat with 16th swing on hats and percussion, low-passed melodic sub bass between the kicks,
+# minor 7th / 9th chords on Rhodes, piano and organ stabs, slow pads, dub delays; tracks stay
+# alive by changing something every 8-16 bars (filter sweeps, elements in and out, fills,
+# breakdowns that drop the kick, a lead that develops instead of looping).
+# ACE-Step 1.5 notes: instruments named concretely, no tempo or key in the caption (they go
+# in the metadata), "instrumental" framing at the start and the end, no genre words that
+# imply singing ("soulful" house is a vocal genre), lyrics = "[Instrumental]" only: section
+# tags with descriptions can be "sung" as hums or shouts, which is what the v4 strange
+# background voices were. The planner LM gets a negative prompt against every vocal sound.
+FRAME_IN = "Instrumental {genre}, no vocals. "
+ARRANGEMENT = (
+    " Evolving arrangement: filtered intro, chords and lead enter gradually, a breakdown "
+    "without kick, then a fuller groove; the melody develops instead of looping."
+)
+FRAME_OUT = " Hi-fi studio mix, warm and clean. Instrumental only."
+TRUMPET = "a distant muted jazz trumpet adds a few soft phrases"
+STYLES: list[tuple[str, int, str, str]] = [
+    ("lounge-deep", 5, "lounge deep house",
+     "Warm Rhodes minor ninth chords, soft grand piano melody, round low-passed bass, "
+     "steady kick, swung brushed hi-hats, light shaker, " + TRUMPET + ". Elegant "
+     "late-night cocktail bar."),
+    ("old-money-bossa", 4, "bossa house, lounge",
+     "Nylon guitar bossa nova chords over a four-on-the-floor kick, jazzy piano voicings, "
+     "warm upright-style bass, soft congas, gentle strings, " + TRUMPET + ". Refined, "
+     "luxurious, private members club."),
+    ("jazzy-deep", 4, "jazzy deep house, nu jazz",
+     "Rhodes and vibraphone ninth chords, walking-style warm bassline, crisp swung "
+     "hi-hats, rimshots, soft kick, a flute or muted trumpet melody that develops. "
+     "Sophisticated hotel lounge."),
+    ("chill-tech", 4, "deep tech house, minimal",
+     "Rolling dubby bassline, tight kick, crisp shuffled hats, shakers and woodblock, "
+     "short Rhodes chord stabs with tape delay, soft filtered pads, subtle percussion "
+     "fills. Calm, focused, hypnotic, deep work."),
+    ("melodic-night", 3, "melodic deep house",
+     "Felt piano melody, slow analog pads, plucked synth arpeggio, deep warm sub bass, "
+     "soft claps, rolling percussion. Nocturnal, cinematic, focused, wide reverb."),
+    ("organic-deep", 3, "organic house, deep house",
+     "Nylon guitar licks, marimba and kalimba notes, congas and bongos, shakers, warm "
+     "bassline, soft kick, airy pads. Sunset terrace, warm and natural."),
+    ("boutique-deep", 3, "deep house, boutique",
+     "Dub chords, Rhodes stabs, round bass between the kicks, shakers and rimshots, "
+     "smooth tenor saxophone phrases now and then. Classy, groovy, upscale store."),
+    ("piano-house-calm", 2, "piano deep house",
+     "Jazzy piano chords and a lyrical piano lead, soft organ pad, warm bass, laid-back "
+     "kick, swung hats, gentle claps, " + TRUMPET + ". Golden hour, confident."),
 ]  # fmt: skip
-STRUCTURES = [
-    "[Intro - filtered Rhodes and soft kick]\n\n[Instrumental - full groove]\n\n"
-    "[Breakdown - piano and pads, no kick]\n\n[Instrumental - groove returns with trumpet]"
-    "\n\n[Outro - elements fade out]",
-    "[Intro - percussion and bass]\n\n[Instrumental - chords enter]\n\n"
-    "[Instrumental - melody on top]\n\n[Breakdown - soft pads]\n\n[Build-up]\n\n"
-    "[Instrumental - full groove]\n\n[Outro]",
-    "[Intro - soft pads]\n\n[Instrumental - deep groove]\n\n[Breakdown - trumpet solo "
-    "over chords]\n\n[Instrumental - full groove]\n\n[Instrumental]\n\n[Outro]",
-]
+LYRICS = "[Instrumental]"
+LM_NEGATIVE = (
+    "vocals, singing, singer, humming, choir, vocal chops, vocal samples, spoken word, "
+    "speech, screams, shouting, crowd noise, laughter, whistling, ad-libs, harsh noise, "
+    "distortion, glitch, lo-fi hiss, repetitive loop"
+)
+
+
+def caption_for(style: str) -> str:
+    _, _, genre, body = next(s for s in STYLES if s[0] == style)
+    text = FRAME_IN.format(genre=genre) + body + ARRANGEMENT + FRAME_OUT
+    if len(text) > 512:
+        raise ValueError(f"caption for {style} is {len(text)} chars (max 512)")
+    return text
+
+
 KEYS = ["A minor", "D minor", "E minor", "G minor", "C minor", "F minor", "B minor", "C major"]
-BPMS = [118, 119, 120, 120, 121, 122, 122, 123]
+BPMS = [118, 119, 120, 120, 121, 122, 122, 123, 124]
 
 # Mastering for streaming: clean sub, light glue, -14 LUFS integrated, -1 dBTP ceiling.
 def master_chain(seconds: float) -> str:
@@ -221,6 +232,67 @@ def quality(wav: Path, seconds: float, bpm: int) -> tuple[bool, str, dict]:
     return True, f"ok peak={peak:.2f} quiet={quiet:.0%} bpm~{found:.0f}", stats
 
 
+_SEPARATOR = None
+
+
+def devocal(wav: Path, dest: Path, strength: float = 0.85) -> tuple[Path, dict]:
+    """Find voice-like sounds with Demucs and pull them down by ~16 dB.
+
+    Returns the cleaned file and `vocal_ratio` (energy of the voice stem against the mix).
+    Brass and sax can leak a little into that stem, so takes are only rejected above
+    --max-vocal-ratio; below it the voice stem is subtracted, which removes hums or shouts
+    while the instruments stay. Never blocks: without Demucs the take is kept as it is.
+    """
+    global _SEPARATOR
+    try:
+        import numpy as np
+        import soundfile as sf
+        import torch
+        from demucs.apply import apply_model
+        from demucs.pretrained import get_model
+
+        if _SEPARATOR is None:
+            _SEPARATOR = get_model("htdemucs")
+            _SEPARATOR.eval()
+        model = _SEPARATOR
+        data, sr = sf.read(str(wav), always_2d=True, dtype="float32")
+        x = torch.from_numpy(data.T.copy())
+        if sr != model.samplerate:
+            import torchaudio
+
+            x = torchaudio.functional.resample(x, sr, model.samplerate)
+        if x.shape[0] == 1:
+            x = x.repeat(2, 1)
+        ref = x.mean(0)
+        mean, std = ref.mean(), ref.std() + 1e-8
+        with torch.no_grad():
+            stems = apply_model(model, ((x - mean) / std)[None], device="cpu", split=True)[0]
+        stems = stems * std + mean
+        voc = stems[model.sources.index("vocals")]
+        if sr != model.samplerate:
+            import torchaudio
+
+            voc = torchaudio.functional.resample(voc, model.samplerate, sr)
+        voc_np = voc.numpy().T[: len(data)]
+        if voc_np.shape[1] != data.shape[1]:
+            voc_np = voc_np.mean(axis=1, keepdims=True)
+        mix_rms = float(np.sqrt((data**2).mean())) + 1e-9
+        voc_rms = float(np.sqrt((voc_np**2).mean()))
+        hop = sr  # 1 s windows: how much of the time the voice stem is loud
+        n = len(voc_np) // hop
+        v = np.sqrt((voc_np[: n * hop].reshape(n, hop, -1) ** 2).mean(axis=(1, 2)))
+        m = np.sqrt((data[: n * hop].reshape(n, hop, -1) ** 2).mean(axis=(1, 2))) + 1e-9
+        loud = float((v / m > 0.5).mean())
+        clean = data - strength * voc_np
+        sf.write(str(dest), clean, sr)
+        wav.unlink(missing_ok=True)
+        stats = {"vocal_ratio": round(voc_rms / mix_rms, 3), "vocal_loud_share": round(loud, 3)}
+        return dest, stats
+    except Exception as e:  # cleaning is a bonus, never the reason a run dies
+        print(f"devocal skipped: {e}", flush=True)
+        return wav, {}
+
+
 def main() -> int:
     p = argparse.ArgumentParser()
     p.add_argument("--out", default="out")
@@ -238,6 +310,10 @@ def main() -> int:
     p.add_argument("--lm", default="acestep-5Hz-lm-1.7B", help="planner LM, or 'none'")
     p.add_argument("--shift", type=float, default=3.0, help="timestep shift (guide: 3.0 for turbo)")
     p.add_argument("--steps", type=int, default=8, help="denoising steps (turbo: 8, max 20)")
+    p.add_argument("--lm-temperature", type=float, default=1.0, help="guide: 0.9-1.1 = varied")
+    p.add_argument(
+        "--max-vocal-ratio", type=float, default=0.45, help="reject takes with more voice"
+    )
     args = p.parse_args()
 
     sys.path.insert(0, str(Path.cwd()))
@@ -286,8 +362,8 @@ def main() -> int:
             style = rng.choices(names, weights=weights, k=1)[0]
             bpm = rng.choice(BPMS)
             key = rng.choice(KEYS)
-            caption = dict((s[0], s[2]) for s in STYLES)[style].format(bpm=bpm)
-            structure = rng.choice(STRUCTURES)
+            caption = caption_for(style)
+            structure = LYRICS
             seed = rng.randrange(1, 2**31 - 1)
             params = GenerationParams(
                 caption=caption,
@@ -303,6 +379,11 @@ def main() -> int:
                 use_cot_caption=False,  # keep our caption: every track stays on-style
                 use_cot_metas=False,  # BPM and key are ours too
                 use_cot_language=False,
+                vocal_language="unknown",
+                lm_temperature=args.lm_temperature,
+                lm_top_p=0.92,
+                lm_cfg_scale=2.5,
+                lm_negative_prompt=LM_NEGATIVE,
             )
             config = GenerationConfig(
                 batch_size=1, audio_format="wav", use_random_seed=False, seeds=[seed]
@@ -315,12 +396,19 @@ def main() -> int:
                 continue
             wav = to_wav(result.audios[0], out / f"take-{i}-{attempt}.wav")
             good, why, stats = quality(wav, args.seconds, bpm)
+            if good:
+                wav, vstats = devocal(wav, out / f"clean-{i}-{attempt}.wav")
+                stats.update(vstats)
+                if vstats.get("vocal_ratio", 0) > args.max_vocal_ratio:
+                    good, why = False, f"voice-like sound ({vstats['vocal_ratio']:.2f})"
+                else:
+                    why += f" vocal={vstats.get('vocal_ratio', 'n/a')}"
             print(f"track {i} take {attempt} [{style}]: {why} ({took:.0f}s)", flush=True)
             if not good:
                 rejected += 1
                 wav.unlink(missing_ok=True)
                 continue
-            name = f"fc4-{args.seed:05d}-{i:02d}.mp3"
+            name = f"{PREFIX}-{args.seed:05d}-{i:02d}.mp3"
             subprocess.run(
                 [ffmpeg(), "-y", "-loglevel", "error", "-i", str(wav),
                  "-af", master_chain(args.seconds), "-ar", "44100", "-b:a", "320k",
@@ -347,7 +435,7 @@ def main() -> int:
                     "creator": "FOCUS & CO",
                     "license": "original",
                     "duration_s": args.seconds,
-                    "tags": ["deep house", "lounge", "instrumental", f"{bpm} bpm", key],
+                    "tags": ["deep house", "lounge", "instrumental", style, f"{bpm} bpm", key],
                     "bpm": bpm,
                     "key": key,
                     "style": style,
