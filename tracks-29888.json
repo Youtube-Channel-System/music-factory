@@ -1,0 +1,113 @@
+[
+  {
+    "file": "fc5-29888-00.mp3",
+    "title": "Cold Horizon",
+    "creator": "FOCUS & CO",
+    "license": "original",
+    "duration_s": 230.0,
+    "tags": [
+      "deep house",
+      "lounge",
+      "instrumental",
+      "jazzy-deep",
+      "120 bpm",
+      "C major"
+    ],
+    "bpm": 120,
+    "key": "C major",
+    "style": "jazzy-deep",
+    "caption": "Instrumental jazzy deep house, nu jazz, no vocals. Rhodes and vibraphone ninth chords, walking-style warm bassline, crisp swung hi-hats, rimshots, soft kick, a flute or muted trumpet melody that develops. Sophisticated hotel lounge. Evolving arrangement: filtered intro, chords and lead enter gradually, a breakdown without kick, then a fuller groove; the melody develops instead of looping. Hi-fi studio mix, warm and clean. Instrumental only.",
+    "structure": "[Instrumental]",
+    "seed": 358583746,
+    "model": "acestep-v15-xl-turbo",
+    "lm": "acestep-5Hz-lm-1.7B",
+    "generator": "music-factory v5",
+    "created_at": "2026-11-01T11:27:30Z",
+    "qa": {
+      "peak": 0.8,
+      "quiet": 0.007,
+      "bpm_found": 119.7,
+      "vocal_ratio": 0.009,
+      "vocal_loud_share": 0.013,
+      "score": 77,
+      "lufs": -13.8,
+      "true_peak": -0.6,
+      "rolloff_hz": 15205,
+      "dynamics_db": 8.7
+    }
+  },
+  {
+    "file": "fc5-29888-01.mp3",
+    "title": "Clear Desk",
+    "creator": "FOCUS & CO",
+    "license": "original",
+    "duration_s": 230.0,
+    "tags": [
+      "deep house",
+      "lounge",
+      "instrumental",
+      "chill-tech",
+      "120 bpm",
+      "A minor"
+    ],
+    "bpm": 120,
+    "key": "A minor",
+    "style": "chill-tech",
+    "caption": "Instrumental deep tech house, minimal, no vocals. Rolling dubby bassline, tight kick, crisp shuffled hats, shakers and woodblock, short Rhodes chord stabs with tape delay, soft filtered pads, subtle percussion fills. Calm, focused, hypnotic, deep work. Evolving arrangement: filtered intro, chords and lead enter gradually, a breakdown without kick, then a fuller groove; the melody develops instead of looping. Hi-fi studio mix, warm and clean. Instrumental only.",
+    "structure": "[Instrumental]",
+    "seed": 138529510,
+    "model": "acestep-v15-xl-turbo",
+    "lm": "acestep-5Hz-lm-1.7B",
+    "generator": "music-factory v5",
+    "created_at": "2026-11-01T13:22:15Z",
+    "qa": {
+      "peak": 0.7,
+      "quiet": 0.029,
+      "bpm_found": 122.3,
+      "vocal_ratio": 0.026,
+      "vocal_loud_share": 0.039,
+      "score": 74,
+      "lufs": -13.9,
+      "true_peak": -0.7,
+      "rolloff_hz": 15314,
+      "dynamics_db": 4.7
+    }
+  },
+  {
+    "file": "fc5-29888-02.mp3",
+    "title": "Black Window",
+    "creator": "FOCUS & CO",
+    "license": "original",
+    "duration_s": 230.0,
+    "tags": [
+      "deep house",
+      "lounge",
+      "instrumental",
+      "chill-tech",
+      "124 bpm",
+      "C minor"
+    ],
+    "bpm": 124,
+    "key": "C minor",
+    "style": "chill-tech",
+    "caption": "Instrumental deep tech house, minimal, no vocals. Rolling dubby bassline, tight kick, crisp shuffled hats, shakers and woodblock, short Rhodes chord stabs with tape delay, soft filtered pads, subtle percussion fills. Calm, focused, hypnotic, deep work. Evolving arrangement: filtered intro, chords and lead enter gradually, a breakdown without kick, then a fuller groove; the melody develops instead of looping. Hi-fi studio mix, warm and clean. Instrumental only.",
+    "structure": "[Instrumental]",
+    "seed": 487681151,
+    "model": "acestep-v15-xl-turbo",
+    "lm": "acestep-5Hz-lm-1.7B",
+    "generator": "music-factory v5",
+    "created_at": "2026-11-01T15:07:38Z",
+    "qa": {
+      "peak": 0.72,
+      "quiet": 0.0,
+      "bpm_found": 125.0,
+      "vocal_ratio": 0.06,
+      "vocal_loud_share": 0.026,
+      "score": 71,
+      "lufs": -13.5,
+      "true_peak": -0.5,
+      "rolloff_hz": 17649,
+      "dynamics_db": 6.1
+    }
+  }
+]
