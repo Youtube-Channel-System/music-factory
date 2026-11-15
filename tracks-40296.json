@@ -1,0 +1,113 @@
+[
+  {
+    "file": "fc5-40296-00.mp3",
+    "title": "Higher Practice",
+    "creator": "FOCUS & CO",
+    "license": "original",
+    "duration_s": 230.0,
+    "tags": [
+      "deep house",
+      "lounge",
+      "instrumental",
+      "jazzy-deep",
+      "120 bpm",
+      "C major"
+    ],
+    "bpm": 120,
+    "key": "C major",
+    "style": "jazzy-deep",
+    "caption": "Instrumental jazzy deep house, nu jazz, no vocals. Rhodes and vibraphone ninth chords, walking-style warm bassline, crisp swung hi-hats, rimshots, soft kick, a flute or muted trumpet melody that develops. Sophisticated hotel lounge. Evolving arrangement: filtered intro, chords and lead enter gradually, a breakdown without kick, then a fuller groove; the melody develops instead of looping. Hi-fi studio mix, warm and clean. Instrumental only.",
+    "structure": "[Instrumental]",
+    "seed": 758040693,
+    "model": "acestep-v15-xl-turbo",
+    "lm": "acestep-5Hz-lm-1.7B",
+    "generator": "music-factory v5",
+    "created_at": "2026-11-15T11:58:14Z",
+    "qa": {
+      "peak": 0.89,
+      "quiet": 0.004,
+      "bpm_found": 119.7,
+      "vocal_ratio": 0.088,
+      "vocal_loud_share": 0.009,
+      "score": 68,
+      "lufs": -14.1,
+      "true_peak": -0.7,
+      "rolloff_hz": 13597,
+      "dynamics_db": 4.6
+    }
+  },
+  {
+    "file": "fc5-40296-01.mp3",
+    "title": "Sunday Reset",
+    "creator": "FOCUS & CO",
+    "license": "original",
+    "duration_s": 230.0,
+    "tags": [
+      "deep house",
+      "lounge",
+      "instrumental",
+      "chill-tech",
+      "119 bpm",
+      "B minor"
+    ],
+    "bpm": 119,
+    "key": "B minor",
+    "style": "chill-tech",
+    "caption": "Instrumental deep tech house, minimal, no vocals. Rolling dubby bassline, tight kick, crisp shuffled hats, shakers and woodblock, short Rhodes chord stabs with tape delay, soft filtered pads, subtle percussion fills. Calm, focused, hypnotic, deep work. Evolving arrangement: filtered intro, chords and lead enter gradually, a breakdown without kick, then a fuller groove; the melody develops instead of looping. Hi-fi studio mix, warm and clean. Instrumental only.",
+    "structure": "[Instrumental]",
+    "seed": 1924347119,
+    "model": "acestep-v15-xl-turbo",
+    "lm": "acestep-5Hz-lm-1.7B",
+    "generator": "music-factory v5",
+    "created_at": "2026-11-15T13:57:00Z",
+    "qa": {
+      "peak": 0.65,
+      "quiet": 0.0,
+      "bpm_found": 117.2,
+      "vocal_ratio": 0.046,
+      "vocal_loud_share": 0.013,
+      "score": 69,
+      "lufs": -13.4,
+      "true_peak": -0.3,
+      "rolloff_hz": 14240,
+      "dynamics_db": 7.4
+    }
+  },
+  {
+    "file": "fc5-40296-02.mp3",
+    "title": "Calm Compound",
+    "creator": "FOCUS & CO",
+    "license": "original",
+    "duration_s": 230.0,
+    "tags": [
+      "deep house",
+      "lounge",
+      "instrumental",
+      "jazzy-deep",
+      "118 bpm",
+      "A minor"
+    ],
+    "bpm": 118,
+    "key": "A minor",
+    "style": "jazzy-deep",
+    "caption": "Instrumental jazzy deep house, nu jazz, no vocals. Rhodes and vibraphone ninth chords, walking-style warm bassline, crisp swung hi-hats, rimshots, soft kick, a flute or muted trumpet melody that develops. Sophisticated hotel lounge. Evolving arrangement: filtered intro, chords and lead enter gradually, a breakdown without kick, then a fuller groove; the melody develops instead of looping. Hi-fi studio mix, warm and clean. Instrumental only.",
+    "structure": "[Instrumental]",
+    "seed": 1623522668,
+    "model": "acestep-v15-xl-turbo",
+    "lm": "acestep-5Hz-lm-1.7B",
+    "generator": "music-factory v5",
+    "created_at": "2026-11-15T15:57:56Z",
+    "qa": {
+      "peak": 0.84,
+      "quiet": 0.002,
+      "bpm_found": 117.2,
+      "vocal_ratio": 0.113,
+      "vocal_loud_share": 0.017,
+      "score": 70,
+      "lufs": -13.6,
+      "true_peak": -0.4,
+      "rolloff_hz": 14309,
+      "dynamics_db": 7.1
+    }
+  }
+]
